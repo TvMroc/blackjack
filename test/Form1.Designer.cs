@@ -26,6 +26,51 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
+
+
+        public enum Type
+        {
+            Spades,
+            Diamonds,
+            Clubs,
+            Hearts,
+        }
+
+        public class Card
+        {
+            public int[] Value { get; }
+            public string Label { get; }
+            public Type Type { get; }
+
+            public Card(int[] value, string label, Type type)
+            {
+                Value = value;
+                Label = label;
+                Type = type;
+            }
+        }
+
+
+
+        readonly int[][] DeckValues = [[11, 1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [10], [10], [10]];
+        readonly string[] DeckLabels = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
+        readonly Type[] Types = [Type.Spades, Type.Diamonds, Type.Clubs, Type.Hearts];
+
+        public List<Card> CreateDeck()
+        {
+            List<Card> Deck = new List<Card>();
+
+            foreach (Type type in Types)
+            {
+                for (int i = 0; i < DeckLabels.Length; i++)
+                {
+                    Deck.Add(new Card(DeckValues[i], DeckLabels[i], type));
+                }
+            }
+
+            return Deck;
+        }
+
         private void InitializeComponent()
         {
             button1 = new Button();
@@ -50,6 +95,11 @@
             Name = "Form1";
             Text = "Form1";
             ResumeLayout(false);
+            //
+            // deck
+            //
+            List<Card> Deck = CreateDeck();
+            Console.WriteLine(Deck);
         }
 
         #endregion
