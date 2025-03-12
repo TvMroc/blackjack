@@ -65,6 +65,8 @@ namespace test
             // deck
             //
             List<Card> Deck = CreateDeck();
+            Deck.Shuffle();
+            Deck.Shuffle();
             Console.WriteLine(Deck);
             //
             //
