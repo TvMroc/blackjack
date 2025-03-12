@@ -1,4 +1,6 @@
-﻿namespace test
+﻿using test.Blackjack;
+
+namespace test
 {
     partial class Form1
     {
@@ -28,14 +30,6 @@
         /// </summary>
 
 
-        public enum Type
-        {
-            Spades,
-            Diamonds,
-            Clubs,
-            Hearts,
-        }
-
         public class Card
         {
             public int[] Value { get; }
@@ -50,21 +44,15 @@
             }
         }
 
-
-
-        readonly int[][] DeckValues = [[11, 1], [2], [3], [4], [5], [6], [7], [8], [9], [10], [10], [10], [10]];
-        readonly string[] DeckLabels = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
-        readonly Type[] Types = [Type.Spades, Type.Diamonds, Type.Clubs, Type.Hearts];
-
         public List<Card> CreateDeck()
         {
             List<Card> Deck = new List<Card>();
 
-            foreach (Type type in Types)
+            foreach (Constants.Type type in Constants.Types)
             {
-                for (int i = 0; i < DeckLabels.Length; i++)
+                for (int i = 0; i < Constants.DeckLabels.Length; i++)
                 {
-                    Deck.Add(new Card(DeckValues[i], DeckLabels[i], type));
+                    Deck.Add(new Card(Constants.DeckValues[i], Constants.DeckLabels[i], type));
                 }
             }
 
@@ -73,6 +61,13 @@
 
         private void InitializeComponent()
         {
+            //
+            // deck
+            //
+            List<Card> Deck = CreateDeck();
+            Console.WriteLine(Deck);
+            //
+            //
             button1 = new Button();
             SuspendLayout();
             // 
@@ -95,11 +90,6 @@
             Name = "Form1";
             Text = "Form1";
             ResumeLayout(false);
-            //
-            // deck
-            //
-            List<Card> Deck = CreateDeck();
-            Console.WriteLine(Deck);
         }
 
         #endregion
