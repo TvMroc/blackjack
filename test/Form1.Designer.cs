@@ -34,9 +34,9 @@ namespace test
         {
             public int[] Value { get; }
             public string Label { get; }
-            public Type Type { get; }
+            public Constants.Type Type { get; }
 
-            public Card(int[] value, string label, Type type)
+            public Card(int[] value, string label, Constants.Type type)
             {
                 Value = value;
                 Label = label;
