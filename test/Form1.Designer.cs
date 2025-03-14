@@ -1,4 +1,5 @@
 ﻿using test.Blackjack;
+using static test.Blackjack.Deck;
 
 namespace test
 {
@@ -28,36 +29,6 @@ namespace test
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-
-
-        public class Card
-        {
-            public int[] Value { get; }
-            public string Label { get; }
-            public Constants.Type Type { get; }
-
-            public Card(int[] value, string label, Constants.Type type)
-            {
-                Value = value;
-                Label = label;
-                Type = type;
-            }
-        }
-
-        public List<Card> CreateDeck()
-        {
-            List<Card> Deck = new List<Card>();
-
-            foreach (Constants.Type type in Constants.Types)
-            {
-                for (int i = 0; i < Constants.DeckLabels.Length; i++)
-                {
-                    Deck.Add(new Card(Constants.DeckValues[i], Constants.DeckLabels[i], type));
-                }
-            }
-
-            return Deck;
-        }
 
         private void InitializeComponent()
         {
