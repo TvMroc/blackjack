@@ -4,6 +4,7 @@
     {
         public static void Shuffle<T>(this IList<T> list, int Shuffles)
         {
+            if (list.Count <= 0) return;
             for (; Shuffles > 0; Shuffles--)
             {
                 for (int i = list.Count - 1; i > 0; i--)
