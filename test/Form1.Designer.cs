@@ -28,6 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            //
+            // deck
+            //
+            List<Card> Deck = CreateDeck();
+            Deck.Shuffle(2);
+            Console.WriteLine(Deck);
+            //
+            //
+            //
             button1 = new Button();
             SuspendLayout();
             // 
