@@ -1,4 +1,7 @@
-﻿namespace test
+﻿using test.Blackjack;
+using static test.Blackjack.Deck;
+
+namespace test
 {
     partial class Form1
     {
@@ -26,8 +29,18 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
+
         private void InitializeComponent()
         {
+            //
+            // deck
+            //
+            List<Card> Deck = CreateDeck();
+            Deck.Shuffle();
+            Deck.Shuffle();
+            Console.WriteLine(Deck);
+            //
+            //
             button1 = new Button();
             SuspendLayout();
             // 
