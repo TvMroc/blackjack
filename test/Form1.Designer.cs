@@ -1,4 +1,7 @@
-﻿namespace test
+﻿using static test.Blackjack.Deck;
+using static test.Blackjack.DealerFunctions;
+
+namespace test
 {
     partial class Form1
     {
@@ -33,6 +36,8 @@
             //
             List<Card> Deck = CreateDeck();
             Deck.Shuffle(2);
+            Console.WriteLine(Deck);
+            Card DrawnCard = Draw(Deck);
             Console.WriteLine(Deck);
             //
             //
