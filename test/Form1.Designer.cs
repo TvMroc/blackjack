@@ -1,5 +1,7 @@
 ﻿using static test.Blackjack.Deck;
 using static test.Blackjack.DealerFunctions;
+using static test.Blackjack.Blackjack;
+using test.Blackjack;
 
 namespace test
 {
@@ -29,20 +31,19 @@ namespace test
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
+
         private void InitializeComponent()
         {
             //
-            // deck
+            // game
             //
-            List<Card> Deck = CreateDeck();
-            Deck.Shuffle(2);
-            Console.WriteLine(Deck);
-            Card DrawnCard = Draw(Deck);
-            Console.WriteLine(Deck);
+            Blackjack.Blackjack Game = new Blackjack.Blackjack { };
+            Game.StartGame();
             //
             //
             //
             button1 = new Button();
+            richTextBox1 = new RichTextBox();
             SuspendLayout();
             // 
             // button1
@@ -55,11 +56,20 @@ namespace test
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // richTextBox1
+            // 
+            richTextBox1.Location = new Point(416, 285);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(100, 96);
+            richTextBox1.TabIndex = 1;
+            richTextBox1.Text = Game.GetTotal(Game.GetDealerCards()).ToString();
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(richTextBox1);
             Controls.Add(button1);
             Name = "Form1";
             Text = "Form1";
@@ -69,5 +79,6 @@ namespace test
         #endregion
 
         private Button button1;
+        private RichTextBox richTextBox1;
     }
 }

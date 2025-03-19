@@ -1,3 +1,7 @@
+using test.Blackjack;
+using static test.Blackjack.Deck;
+using static test.Blackjack.DealerFunctions;
+
 namespace test
 {
     public partial class Form1 : Form
@@ -9,7 +13,6 @@ namespace test
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("BUTTON clicked");
         }
     }
 }
