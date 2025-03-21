@@ -23,25 +23,12 @@ namespace test.Blackjack
         }
         public int GetTotal(List<Card> deck)
         {
-            int aceCount = CountAces(deck);
-            int switchedAces = 0;
-            int total = 0;
-            foreach(Card card in deck)
+            int total = deck.Where(x => x.Label != "Ace").Sum(x => x.Value[0]);
+            List<Card> Aces = deck.Where(x => x.Label == "Ace").ToList();
+            foreach(Card card in Aces)
             {
-                total = total+card.Value[0];
+                total = total + (total + card.Value[0] > 21 ? card.Value[1] : card.Value[0]);
             }
-            while (total > 21)
-            {
-                if (total > 21 && switchedAces < aceCount)
-                {
-                    total = total-10;
-                    switchedAces++;
-                } else
-                {
-                    break;
-                }
-            }
-
             return total;
         }
             

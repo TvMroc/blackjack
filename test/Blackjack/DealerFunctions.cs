@@ -20,6 +20,11 @@ namespace test.Blackjack
         }
         public static Card Draw(List<Card> deck)
         {
+            if (deck.Count < 0)
+            {
+                Console.WriteLine("Deck empty");
+                return null;
+            }
             Card Card = deck.First();
             deck.Remove(deck.First());
             return Card;
