@@ -2,7 +2,7 @@
 
 namespace test.Blackjack
 {
-    static class Dealer
+    class Dealer : User
     {
     }
 }

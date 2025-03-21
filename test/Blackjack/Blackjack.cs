@@ -1,21 +1,13 @@
 ﻿using static test.Blackjack.Deck;
-using static test.Blackjack.Dealer;
+using static test.Blackjack.Player;
 
 namespace test.Blackjack
 {
     class Blackjack
     {
 
-        private List<Card> PlayerCards = [];
-        private List<Card> DealerCards = [];
-        public List<Card> GetDealerCards()
-        {
-            return DealerCards;
-        }
-        public List<Card> GetPlayerCards()
-        {
-            return DealerCards;
-        }
+        User player = new Player();
+        User dealer = new Dealer();
 
         public int GetTotal(List<Card> deck)
         {
@@ -32,14 +24,14 @@ namespace test.Blackjack
         {
             Deck deck = new Deck();
             deck.Shuffle(4);
-            PlayerCards.Add(deck.Draw());
-            DealerCards.Add(deck.Draw());
-            PlayerCards.Add(deck.Draw());
-            DealerCards.Add(deck.Draw());
+            player.AddCard(deck.Draw());
+            dealer.AddCard(deck.Draw());
+            player.AddCard(deck.Draw());
+            dealer.AddCard(deck.Draw());
 
-            while (GetTotal(DealerCards) < 16)
+            while (GetTotal(dealer.GetCards()) < 16)
             {
-                DealerCards.Add(deck.Draw());
+                dealer.AddCard(deck.Draw());
             }
         }
     }

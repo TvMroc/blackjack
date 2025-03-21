@@ -2,7 +2,7 @@
 
 namespace test.Blackjack
 {
-    class Player
+    class Player : User
     {
         public Card? Hit(Deck deck)
         {
