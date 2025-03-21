@@ -2,33 +2,43 @@
 {
     class Deck
     {
-        public class Card
+        public List<Card> Value = new List<Card>();
+        public Deck()
         {
-            public int[] Value { get; }
-            public string Label { get; }
-            public Constants.Type Type { get; }
-
-            public Card(int[] value, string label, Constants.Type type)
-            {
-                Value = value;
-                Label = label;
-                Type = type;
-            }
-        }
-
-        public static List<Card> CreateDeck()
-        {
-            List<Card> Deck = new List<Card>();
-
             foreach (Constants.Type type in Constants.Types)
             {
                 for (int i = 0; i < Constants.DeckLabels.Length; i++)
                 {
-                    Deck.Add(new Card(Constants.DeckValues[i], Constants.DeckLabels[i], type));
+                    Value.Add(new Card(Constants.DeckValues[i], Constants.DeckLabels[i], type));
                 }
             }
+        }
 
-            return Deck;
+        public Card? Draw()
+        {
+            if (Value.Count <= 0)
+            {
+                Console.WriteLine("Deck empty");
+                return null;
+            }
+            Card Card = Value.First();
+            Value.Remove(Value.First());
+            return Card;
+        }
+
+        public void Shuffle(int Shuffles)
+        {
+            if (Value.Count <= 0) return;
+            for (; Shuffles > 0; Shuffles--)
+            {
+                for (int i = Value.Count - 1; i > 0; i--)
+                {
+                    int rnd = Constants.rng.Next(i + 1);
+                    Card value = Value[rnd];
+                    Value[rnd] = Value[i];
+                    Value[i] = value;
+                }
+            }
         }
     }
 }

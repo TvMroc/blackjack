@@ -1,5 +1,5 @@
 ﻿using static test.Blackjack.Deck;
-using static test.Blackjack.DealerFunctions;
+using static test.Blackjack.Dealer;
 
 namespace test.Blackjack
 {
@@ -17,10 +17,6 @@ namespace test.Blackjack
             return DealerCards;
         }
 
-        public int CountAces(List<Card> deck)
-        {
-            return deck.Where(x => x.Label == "Ace").Count();
-        }
         public int GetTotal(List<Card> deck)
         {
             int total = deck.Where(x => x.Label != "Ace").Sum(x => x.Value[0]);
@@ -31,19 +27,19 @@ namespace test.Blackjack
             }
             return total;
         }
-            
+        
         public void StartGame()
         {
-            List<Card> Deck = CreateDeck();
-            Deck.Shuffle(4);
-            PlayerCards.Add(Draw(Deck));
-            DealerCards.Add(Draw(Deck));
-            PlayerCards.Add(Draw(Deck));
-            DealerCards.Add(Draw(Deck));
+            Deck deck = new Deck();
+            deck.Shuffle(4);
+            PlayerCards.Add(deck.Draw());
+            DealerCards.Add(deck.Draw());
+            PlayerCards.Add(deck.Draw());
+            DealerCards.Add(deck.Draw());
 
-            while (GetTotal(DealerCards) < 17)
+            while (GetTotal(DealerCards) < 16)
             {
-                DealerCards.Add(Draw(Deck));
+                DealerCards.Add(deck.Draw());
             }
         }
     }

@@ -1,6 +1,6 @@
 using test.Blackjack;
 using static test.Blackjack.Deck;
-using static test.Blackjack.DealerFunctions;
+using static test.Blackjack.Dealer;
 
 namespace test
 {

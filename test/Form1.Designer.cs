@@ -1,5 +1,5 @@
 ﻿using static test.Blackjack.Deck;
-using static test.Blackjack.DealerFunctions;
+using static test.Blackjack.Dealer;
 using static test.Blackjack.Blackjack;
 using test.Blackjack;
 
