@@ -24,5 +24,10 @@ namespace test.Blackjack
         {
             return Cards;
         }
+
+        public void Hit(Deck deck)
+        {
+            AddCard(deck.Draw());
+        }
     }
 }

@@ -4,9 +4,6 @@ namespace test.Blackjack
 {
     class Player : User
     {
-        public Card? Hit(Deck deck)
-        {
-            return deck.Draw();
-        }
+
     }
 }
