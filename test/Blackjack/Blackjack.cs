@@ -24,14 +24,14 @@ namespace test.Blackjack
         {
             Deck deck = new Deck();
             deck.Shuffle(4);
-            player.AddCard(deck.Draw());
-            dealer.AddCard(deck.Draw());
-            player.AddCard(deck.Draw());
-            dealer.AddCard(deck.Draw());
+            player.Hit(deck);
+            dealer.Hit(deck);
+            player.Hit(deck);
+            dealer.Hit(deck);
 
             while (GetTotal(dealer.GetCards()) < 16)
             {
-                dealer.AddCard(deck.Draw());
+                dealer.Hit(deck);
             }
         }
     }
