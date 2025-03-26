@@ -12,6 +12,10 @@ namespace test.Blackjack
         public int Money { get; private set; }
         public int Bet { get; private set; } = 0;
         public bool Standing { get; private set; } = false;
+        public bool Busted()
+        {
+            return GetTotal() > 21;
+        }
 
         public void AddCard(Card card)
         {
