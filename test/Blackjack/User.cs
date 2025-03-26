@@ -8,8 +8,7 @@ namespace test.Blackjack
 {
     class User
     {
-        public Constants.Type Type { get; }
-        private List<Card> Cards = [];
+        public List<Card> Cards { get; private set; } = [];
         public int Money { get; private set; }
         public int Bet { get; private set; } = 0;
         public bool Standing { get; private set; } = false;
@@ -32,11 +31,6 @@ namespace test.Blackjack
             Bet = bet;
         }
 
-
-        public List<Card> GetCards()
-        {
-            return Cards;
-        }
         public void Stand()
         {
             Standing = true;
