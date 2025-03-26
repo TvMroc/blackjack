@@ -62,7 +62,7 @@ namespace test
             richTextBox1.Name = "richTextBox1";
             richTextBox1.Size = new Size(100, 96);
             richTextBox1.TabIndex = 1;
-            richTextBox1.Text = Game.GetTotal(Game.GetDealerCards()).ToString();
+            richTextBox1.Text = "3";
             // 
             // Form1
             // 
