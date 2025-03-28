@@ -8,7 +8,7 @@ namespace test.Blackjack
 {
     class User
     {
-        public List<Card> Cards { get; private set; } = [];
+        public List<Card> Hand { get; private set; } = [];
         public int Money { get; private set; }
         public int Bet { get; private set; } = 0;
         public bool Standing { get; private set; } = false;
@@ -19,12 +19,12 @@ namespace test.Blackjack
 
         public void AddCard(Card? card)
         {
-            if (card != null) Cards.Add(card);
+            if (card != null) Hand.Add(card);
         }
 
         public void SetCards(List<Card> cards)
         {
-            Cards = cards;
+            Hand = cards;
         }
         public void SetMoney(int money)
         {
@@ -51,8 +51,8 @@ namespace test.Blackjack
 
         public int GetTotal()
         {
-            int total = Cards.Where(x => x.Label != "Ace").Sum(x => x.Value[0]);
-            List<Card> Aces = Cards.Where(x => x.Label == "Ace").ToList();
+            int total = Hand.Where(x => x.Label != "Ace").Sum(x => x.Value[0]);
+            List<Card> Aces = Hand.Where(x => x.Label == "Ace").ToList();
             foreach (Card card in Aces)
             {
                 total = total + (total + card.Value[0] > 21 ? card.Value[1] : card.Value[0]);

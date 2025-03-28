@@ -26,11 +26,5 @@ namespace test
         {
 
         }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-            sender = Game.player.GetTotal();
-
-        }
     }
 }

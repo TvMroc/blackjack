@@ -5,7 +5,7 @@ namespace test.Blackjack
 {
     class Player : User
     {
-        public List<Card> SplitCards { get; private set; } = [];
+        public List<Card> SplitHand { get; private set; } = [];
         private bool AceSplit = false;
         public bool HasSplit { get; private set; } = false;
         public Player(int money) : base(money)
@@ -18,8 +18,8 @@ namespace test.Blackjack
 
         public int GetTotal(bool splitTotal)
         {
-            int total = SplitCards.Where(x => x.Label != "Ace").Sum(x => x.Value[0]);
-            List<Card> Aces = SplitCards.Where(x => x.Label == "Ace").ToList();
+            int total = SplitHand.Where(x => x.Label != "Ace").Sum(x => x.Value[0]);
+            List<Card> Aces = SplitHand.Where(x => x.Label == "Ace").ToList();
             foreach (Card card in Aces)
             {
                 total = total + (total + card.Value[0] > 21 ? card.Value[1] : card.Value[0]);
@@ -30,7 +30,7 @@ namespace test.Blackjack
 
         public bool CanSplit()
         {
-            return Cards.Count == 2 && Cards[0] == Cards[1];
+            return Hand.Count == 2 && Hand[0] == Hand[1];
         }
 
         public bool CanDoubleDown()
@@ -40,13 +40,13 @@ namespace test.Blackjack
 
         public void AddCard(Card? card, bool splitHit)
         {
-            if (card != null) SplitCards.Add(card);
+            if (card != null) SplitHand.Add(card);
         }
 
         public void Hit(Deck deck, bool splitHit)
         {
-            if (splitHit && !Standing && deck.Value.Count > 0 && !(AceSplit && SplitCards.Count > 1)) AddCard(deck.Draw(), true);
-            if (!splitHit && !Standing && deck.Value.Count > 0 && !(AceSplit && Cards.Count > 1)) AddCard(deck.Draw());
+            if (splitHit && !Standing && deck.Value.Count > 0 && !(AceSplit && SplitHand.Count > 1)) AddCard(deck.Draw(), true);
+            if (!splitHit && !Standing && deck.Value.Count > 0 && !(AceSplit && Hand.Count > 1)) AddCard(deck.Draw());
         }
 
         public void DoubleDown(Deck deck)
@@ -65,10 +65,10 @@ namespace test.Blackjack
         {
             if (CanSplit())
             {
-                AddCard(Cards[0], true);
-                if (Cards[0].Label == "Ace") AceSplit = true;
+                AddCard(Hand[0], true);
+                if (Hand[0].Label == "Ace") AceSplit = true;
                 HasSplit = true;
-                SetCards([Cards[0]]);
+                SetCards([Hand[0]]);
             }
         }
 
