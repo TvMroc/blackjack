@@ -13,6 +13,9 @@ namespace test.Blackjack
 
         public void StartGame()
         {
+            player = new Player(500);
+            dealer = new Dealer(500);
+            deck = new Deck();
             deck.Shuffle(4);
             player.Hit(deck);
             dealer.Hit(deck);
@@ -38,9 +41,9 @@ namespace test.Blackjack
 
             if (dealer.Standing && player.Standing)
             {
-                if (dealer.Busted() && player.Busted())
+                if (dealer.Busted() && player.Busted() || player.GetTotal() == dealer.GetTotal())
                 {
-                    Winner = "No one";
+                    Winner = "Draw ";
                 }
                 else if (dealer.Busted() || (!player.Busted() && player.GetTotal() > dealer.GetTotal()))
                 {

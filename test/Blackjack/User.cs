@@ -17,9 +17,9 @@ namespace test.Blackjack
             return GetTotal() > 21;
         }
 
-        public void AddCard(Card card)
+        public void AddCard(Card? card)
         {
-            Cards.Add(card);
+            if (card != null) Cards.Add(card);
         }
 
         public void SetCards(List<Card> cards)

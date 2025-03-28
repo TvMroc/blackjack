@@ -10,12 +10,12 @@ namespace test.Blackjack
         public bool HasSplit { get; private set; } = false;
         public Player(int money) : base(money)
         {
-
         }
-        public bool Busted()
+        public new bool Busted()
         {
             return GetTotal() > 21 || GetTotal(true) > 21;
         }
+
         public int GetTotal(bool splitTotal)
         {
             int total = SplitCards.Where(x => x.Label != "Ace").Sum(x => x.Value[0]);
@@ -23,6 +23,7 @@ namespace test.Blackjack
             foreach (Card card in Aces)
             {
                 total = total + (total + card.Value[0] > 21 ? card.Value[1] : card.Value[0]);
+                card.Value[1] = 0;
             }
             return total;
         }
@@ -31,14 +32,15 @@ namespace test.Blackjack
         {
             return Cards.Count == 2 && Cards[0] == Cards[1];
         }
+
         public bool CanDoubleDown()
         {
             return GetTotal() > Constants.doubleDownRange[0] && GetTotal() < Constants.doubleDownRange[1] && Bet * 2 <= Money && !HasSplit;
         }
 
-        public void AddCard(Card card, bool splitHit)
+        public void AddCard(Card? card, bool splitHit)
         {
-            SplitCards.Add(card);
+            if (card != null) SplitCards.Add(card);
         }
 
         public void Hit(Deck deck, bool splitHit)

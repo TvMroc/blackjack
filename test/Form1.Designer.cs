@@ -34,73 +34,70 @@ namespace test
 
         private void InitializeComponent()
         {
-            //
-            // game
-            //
-            Blackjack.Blackjack Game = new Blackjack.Blackjack { };
-            Game.StartGame();
-            //
-            //
-            //
             button1 = new Button();
-            richTextBox1 = new RichTextBox();
-            richTextBox2 = new RichTextBox();
-            richTextBox3 = new RichTextBox();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(357, 128);
+            button1.Location = new Point(373, 135);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 0;
-            button1.Text = "button1";
+            button1.Text = "Start";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // richTextBox1
+            // label1
             // 
-            richTextBox1.Location = new Point(416, 285);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(100, 96);
-            richTextBox1.TabIndex = 1;
-            richTextBox1.Text = Game.Winner;
+            label1.AutoSize = true;
+            label1.Location = new Point(229, 225);
+            label1.Name = "label1";
+            label1.Size = new Size(38, 15);
+            label1.TabIndex = 1;
+            label1.Text = "label1";
             // 
-            // richTextBox2
+            // label2
             // 
-            richTextBox2.Location = new Point(179, 286);
-            richTextBox2.Name = "richTextBox2";
-            richTextBox2.Size = new Size(100, 96);
-            richTextBox2.TabIndex = 2;
-            richTextBox2.Text = "Player "+Game.player.GetTotal().ToString();
+            label2.AutoSize = true;
+            label2.Location = new Point(392, 217);
+            label2.Name = "label2";
+            label2.Size = new Size(38, 15);
+            label2.TabIndex = 2;
+            label2.Text = "label2";
             // 
-            // richTextBox3
+            // label3
             // 
-            richTextBox3.Location = new Point(605, 231);
-            richTextBox3.Name = "richTextBox3";
-            richTextBox3.Size = new Size(100, 96);
-            richTextBox3.TabIndex = 3;
-            richTextBox3.Text = "Dealer "+Game.dealer.GetTotal().ToString();
+            label3.AutoSize = true;
+            label3.Location = new Point(529, 224);
+            label3.Name = "label3";
+            label3.Size = new Size(38, 15);
+            label3.TabIndex = 3;
+            label3.Text = "label3";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(richTextBox3);
-            Controls.Add(richTextBox2);
-            Controls.Add(richTextBox1);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label1);
             Controls.Add(button1);
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private Button button1;
-        private RichTextBox richTextBox1;
-        private RichTextBox richTextBox2;
-        private RichTextBox richTextBox3;
+        private Label label1;
+        private Label label2;
+        private Label label3;
     }
 }

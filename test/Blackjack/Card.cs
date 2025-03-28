@@ -2,9 +2,9 @@
 {
     class Card
     {
-        public int[] Value { get; }
-        public string Label { get; }
-        public Constants.Type Type { get; }
+        public int[] Value { get; private set; }
+        public string Label { get; private set; }
+        public Constants.Type Type { get; private set; }
         public Card(int[] value, string label, Constants.Type type)
         {
             Value = value;
