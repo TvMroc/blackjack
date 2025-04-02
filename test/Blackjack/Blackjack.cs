@@ -15,8 +15,12 @@ namespace test.Blackjack
         {
             player = new Player(500);
             dealer = new Dealer(500);
+
             deck = new Deck();
-            deck.Shuffle(4);
+            for (int i = 0; i < Constants.DeckShuffles; i++)
+            {
+                deck.Shuffle();
+            }
             player.Hit(deck);
             dealer.Hit(deck);
             player.Hit(deck);

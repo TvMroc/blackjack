@@ -54,8 +54,8 @@ namespace test
             // 
             label1.AutoSize = true;
             label1.Location = new Point(229, 225);
-            label1.Name = "player";
-            label1.Size = new Size(38, 15);
+            label1.Name = "label1";
+            label1.Size = new Size(39, 15);
             label1.TabIndex = 1;
             label1.Text = "player";
             // 
@@ -63,8 +63,8 @@ namespace test
             // 
             label2.AutoSize = true;
             label2.Location = new Point(392, 217);
-            label2.Name = "winner";
-            label2.Size = new Size(38, 15);
+            label2.Name = "label2";
+            label2.Size = new Size(43, 15);
             label2.TabIndex = 2;
             label2.Text = "winner";
             // 
@@ -72,8 +72,8 @@ namespace test
             // 
             label3.AutoSize = true;
             label3.Location = new Point(529, 224);
-            label3.Name = "dealer";
-            label3.Size = new Size(38, 15);
+            label3.Name = "label3";
+            label3.Size = new Size(39, 15);
             label3.TabIndex = 3;
             label3.Text = "dealer";
             // 

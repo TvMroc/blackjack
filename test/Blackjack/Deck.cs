@@ -26,18 +26,15 @@
             return Card;
         }
 
-        public void Shuffle(int Shuffles)
+        public void Shuffle()
         {
-            if (Value.Count <= 0) return;
-            for (; Shuffles > 0; Shuffles--)
+        if (Value.Count <= 0) return;
+            for (int i = Value.Count - 1; i > 0; i--)
             {
-                for (int i = Value.Count - 1; i > 0; i--)
-                {
-                    int rnd = Constants.rng.Next(i + 1);
-                    Card value = Value[rnd];
-                    Value[rnd] = Value[i];
-                    Value[i] = value;
-                }
+                int rnd = Constants.rng.Next(i + 1);
+                Card value = Value[rnd];
+                Value[rnd] = Value[i];
+                Value[i] = value;
             }
         }
     }
