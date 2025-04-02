@@ -16,15 +16,22 @@ namespace test
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Game.StartGame();
-            label1.Text = Game.player.GetTotal().ToString();
+            dataGridView1.Rows.Clear();
+            Game.StartGame("dealer");
+
+            foreach(Card card in Game.getCards())
+            {
+                dataGridView1.Rows.Add(card.Label);
+            }
+            label1.Text = Game.GetTotalFor("player").ToString();
             label2.Text = Game.Winner;
-            label3.Text = Game.dealer.GetTotal().ToString();
+            label3.Text = Game.GetTotalFor("dealer").ToString();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
 
         }
+
     }
 }
