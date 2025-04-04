@@ -17,11 +17,11 @@ namespace test.Blackjack
             return dealer.Hand;
         }
 
-        public int GetTotalFor(string user)
+        public int GetTotalFor(string userTotal)
         {
             if (Winner.Length > 1) return 0;
-            if (user == "player") return player.GetTotal();
-            if (user == "dealer") return player.GetTotal();
+            if (userTotal == "player") return player.GetTotal();
+            if (userTotal == "dealer") return player.GetTotal();
             return 0;
         }
 

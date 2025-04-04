@@ -34,6 +34,7 @@ namespace test
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             button1 = new Button();
             label1 = new Label();
             label2 = new Label();
@@ -41,8 +42,10 @@ namespace test
             pictureBox1 = new PictureBox();
             dataGridView1 = new DataGridView();
             dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            pictureBox2 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -95,20 +98,31 @@ namespace test
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1 });
-            dataGridView1.Location = new Point(474, 288);
-            dataGridView1.Name = "Hand";
-            dataGridView1.Size = new Size(209, 96);
+            dataGridView1.Location = new Point(553, 248);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.Size = new Size(143, 116);
             dataGridView1.TabIndex = 5;
             // 
             // dataGridViewTextBoxColumn1
             // 
             dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            pictureBox2.Location = new Point(493, 178);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(108, 64);
+            pictureBox2.TabIndex = 7;
+            pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(847, 573);
+            Controls.Add(pictureBox2);
             Controls.Add(dataGridView1);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -120,6 +134,7 @@ namespace test
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -133,5 +148,6 @@ namespace test
         private PictureBox pictureBox1;
         private DataGridView dataGridView1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private PictureBox pictureBox2;
     }
 }

@@ -19,7 +19,7 @@ namespace test
             dataGridView1.Rows.Clear();
             Game.StartGame("dealer");
 
-            foreach(Card card in Game.getCards())
+            foreach (Card card in Game.getCards())
             {
                 dataGridView1.Rows.Add(card.Label);
             }
@@ -32,6 +32,15 @@ namespace test
         {
 
         }
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+        }
 
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            pictureBox2.BackColor = Color.Transparent;
+            this.TransparencyKey = Color.Transparent;
+        }
     }
 }
