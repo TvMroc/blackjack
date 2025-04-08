@@ -5,18 +5,36 @@ namespace test.Blackjack
 {
     class Blackjack
     {
-
-        public Player player = new Player(500);
-        public Dealer dealer = new Dealer(500);
+        private string user;
+        private Player player = new Player(500);
+        private Dealer dealer = new Dealer(500);
         Deck deck = new Deck();
         public string Winner { get; private set; } = "";
 
-        public void StartGame()
+        public List<Card> getCards()
         {
+            if (user == "player") return player.Hand;
+            return dealer.Hand;
+        }
+
+        public int GetTotalFor(string userTotal)
+        {
+            if (userTotal == "player") return player.GetTotal();
+            if (userTotal == "dealer") return dealer.GetTotal();
+            return 0;
+        }
+
+        public void StartGame(string user)
+        {
+            this.user = user;
             player = new Player(500);
             dealer = new Dealer(500);
+
             deck = new Deck();
-            deck.Shuffle(4);
+            for (int i = 0; i < Constants.DeckShuffles; i++)
+            {
+                deck.Shuffle();
+            }
             player.Hit(deck);
             dealer.Hit(deck);
             player.Hit(deck);

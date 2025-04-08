@@ -11,10 +11,8 @@ namespace test.Blackjack
         public Player(int money) : base(money)
         {
         }
-        public new bool Busted()
-        {
-            return GetTotal() > 21 || GetTotal(true) > 21;
-        }
+        public new bool Busted() => GetTotal() > 21 || GetTotal(true) > 21;
+        
 
         public int GetTotal(bool splitTotal)
         {
