@@ -19,9 +19,8 @@ namespace test.Blackjack
 
         public int GetTotalFor(string userTotal)
         {
-            if (Winner.Length > 1) return 0;
             if (userTotal == "player") return player.GetTotal();
-            if (userTotal == "dealer") return player.GetTotal();
+            if (userTotal == "dealer") return dealer.GetTotal();
             return 0;
         }
 
