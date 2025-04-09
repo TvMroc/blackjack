@@ -1,15 +1,17 @@
-﻿using static test.Blackjack.Deck;
+﻿using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using static test.Blackjack.Deck;
 using static test.Blackjack.Player;
 
 namespace test.Blackjack
 {
     class Blackjack
     {
-        private string user;
-        private Player player = new Player(500);
-        private Dealer dealer = new Dealer(500);
-        Deck deck = new Deck();
+        private string? user;
+        private Player player = new Player(Constants.startMoney);
+        private Dealer dealer = new Dealer(Constants.startMoney);
         public string Winner { get; private set; } = "";
+        
+        Deck deck = new Deck();
 
         public List<Card> getCards()
         {
@@ -17,10 +19,10 @@ namespace test.Blackjack
             return dealer.Hand;
         }
 
-        public int GetTotalFor(string userTotal)
+        public int GetTotalFor(string totalFor)
         {
-            if (userTotal == "player") return player.GetTotal();
-            if (userTotal == "dealer") return dealer.GetTotal();
+            if (totalFor == "player") return player.GetTotal();
+            if (totalFor == "dealer") return dealer.GetTotal();
             return 0;
         }
 

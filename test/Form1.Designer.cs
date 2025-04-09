@@ -40,17 +40,16 @@ namespace test
             label2 = new Label();
             label3 = new Label();
             pictureBox1 = new PictureBox();
-            dataGridView1 = new DataGridView();
-            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             pictureBox2 = new PictureBox();
+            listBox1 = new ListBox();
+            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(394, 217);
+            button1.Location = new Point(394, 215);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 0;
@@ -65,16 +64,16 @@ namespace test
             label1.Name = "label1";
             label1.Size = new Size(39, 15);
             label1.TabIndex = 1;
-            label1.Text = "player";
+            label1.Text = "Player";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(345, 221);
+            label2.Location = new Point(311, 219);
             label2.Name = "label2";
             label2.Size = new Size(43, 15);
             label2.TabIndex = 2;
-            label2.Text = "winner";
+            label2.Text = "Winner";
             // 
             // label3
             // 
@@ -83,7 +82,7 @@ namespace test
             label3.Name = "label3";
             label3.Size = new Size(39, 15);
             label3.TabIndex = 3;
-            label3.Text = "dealer";
+            label3.Text = "Dealer";
             // 
             // pictureBox1
             // 
@@ -94,36 +93,41 @@ namespace test
             pictureBox1.TabIndex = 4;
             pictureBox1.TabStop = false;
             // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1 });
-            dataGridView1.Location = new Point(553, 248);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(143, 116);
-            dataGridView1.TabIndex = 5;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            // 
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(493, 178);
+            pictureBox2.Location = new Point(485, 193);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(108, 64);
             pictureBox2.TabIndex = 7;
             pictureBox2.TabStop = false;
-            pictureBox2.Click += pictureBox2_Click;
+            // 
+            // listBox1
+            // 
+            listBox1.FormattingEnabled = true;
+            listBox1.Location = new Point(592, 557);
+            listBox1.Name = "listBox1";
+            listBox1.Size = new Size(120, 94);
+            listBox1.TabIndex = 8;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(-button2.Size.Width, -button2.Size.Height);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 9;
+            button2.Text = "Restart";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(847, 573);
+            Controls.Add(button2);
+            Controls.Add(listBox1);
             Controls.Add(pictureBox2);
-            Controls.Add(dataGridView1);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -133,7 +137,6 @@ namespace test
             Text = "Form1";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -146,8 +149,8 @@ namespace test
         private Label label2;
         private Label label3;
         private PictureBox pictureBox1;
-        private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private PictureBox pictureBox2;
+        private ListBox listBox1;
+        private Button button2;
     }
 }

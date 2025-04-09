@@ -1,7 +1,4 @@
-﻿using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
-using static test.Blackjack.Deck;
-
-namespace test.Blackjack
+﻿namespace test.Blackjack
 {
     class Player : User
     {

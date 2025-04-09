@@ -1,6 +1,4 @@
 using test.Blackjack;
-using static test.Blackjack.Deck;
-using static test.Blackjack.Dealer;
 
 namespace test
 {
@@ -8,6 +6,19 @@ namespace test
     {
 
         Blackjack.Blackjack Game = new Blackjack.Blackjack { };
+        private string CurrentActor = "dealer";
+
+        public void NextAction()
+        {
+            if (CurrentActor == "dealer")
+            {
+                
+            } else
+            {
+
+            }
+            CurrentActor = CurrentActor == "dealer" ? "player" : "dealer";
+        }
 
         public Form1()
         {
@@ -16,16 +27,19 @@ namespace test
 
         private void button1_Click(object sender, EventArgs e)
         {
-            dataGridView1.Rows.Clear();
             Game.StartGame("dealer");
+            button1.Location = new Point(-button1.Size.Width, -button1.Size.Height);
+            listBox1.Items.Clear();
+            listBox1.Location = new Point(544, 283);
 
             foreach (Card card in Game.getCards())
             {
-                dataGridView1.Rows.Add(card.Label);
+                listBox1.Items.Add(card.Label);
             }
-            label1.Text = Game.GetTotalFor("player").ToString();
-            label2.Text = Game.Winner;
-            label3.Text = Game.GetTotalFor("dealer").ToString();
+            label1.Text = "Player: " + Game.GetTotalFor("player").ToString();
+            label2.Text = "Winner: " + Game.Winner;
+            label3.Text = "Dealer: " + Game.GetTotalFor("dealer").ToString();
+            button2.Location = new Point(650, 220);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -36,11 +50,15 @@ namespace test
         {
         }
 
-        private void pictureBox2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            pictureBox2.BackColor = Color.Transparent;
-            this.TransparencyKey = Color.Transparent;
+            button1.Location = new Point(394, 215);
+            listBox1.Location = new Point(-listBox1.Size.Width, -listBox1.Size.Height);
+            button2.Location = new Point(-button2.Size.Width, -button2.Size.Height);
+            label1.Text = "Player";
+            label2.Text = "Winner";
+            label3.Text = "Dealer";
+
         }
     }
 }
