@@ -1,4 +1,6 @@
-﻿namespace test.Blackjack
+﻿using static test.Blackjack.Constants;
+
+namespace test.Blackjack
 {
     class Player : User
     {
@@ -8,13 +10,11 @@
         public Player(int money) : base(money)
         {
         }
-        public new bool Busted() => GetTotal() > 21 || GetTotal(true) > 21;
-        
 
         public int GetTotal(bool splitTotal)
         {
             int total = SplitHand.Where(x => x.Label != "Ace").Sum(x => x.Value[0]);
-            List<Card> Aces = SplitHand.Where(x => x.Label == "Ace").ToList();
+            List<Card> Aces = [.. SplitHand.Where(x => x.Label == "Ace")];
             foreach (Card card in Aces)
             {
                 total = total + (total + card.Value[0] > 21 ? card.Value[1] : card.Value[0]);
@@ -33,15 +33,15 @@
             return GetTotal() > Constants.doubleDownRange[0] && GetTotal() < Constants.doubleDownRange[1] && Bet * 2 <= Money && !HasSplit;
         }
 
-        public void AddCard(Card? card, bool splitHit)
+        public void AddCard(Card? card)
         {
             if (card != null) SplitHand.Add(card);
+            if (GetTotal() > 21 || GetTotal(true) > 21) State = UserState.Busted;
         }
 
         public void Hit(Deck deck, bool splitHit)
         {
-            if (splitHit && !Standing && deck.Value.Count > 0 && !(AceSplit && SplitHand.Count > 1)) AddCard(deck.Draw(), true);
-            if (!splitHit && !Standing && deck.Value.Count > 0 && !(AceSplit && Hand.Count > 1)) AddCard(deck.Draw());
+            if (State != Constants.UserState.Standing && deck.Value.Count > 0 && !(AceSplit && SplitHand.Count > 1)) AddCard(deck.Draw(), true);
         }
 
         public void DoubleDown(Deck deck)

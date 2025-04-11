@@ -1,4 +1,5 @@
 ﻿using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using static test.Blackjack.Constants;
 using static test.Blackjack.Deck;
 using static test.Blackjack.Player;
 
@@ -22,8 +23,42 @@ namespace test.Blackjack
         public int GetTotalFor(string totalFor)
         {
             if (totalFor == "player") return player.GetTotal();
-            if (totalFor == "dealer") return dealer.GetTotal();
-            return 0;
+            return dealer.GetTotal();
+        }
+
+        public bool IsUserStanding(string user)
+        {
+            if (user == "player") return player.State != UserState.Standing;
+            return dealer.State != UserState.Standing;
+        }
+        private string CurrentActor = "dealer";
+
+        public void NextAction()
+        {
+            if (CurrentActor == "dealer")
+            {
+                if (IsUserStanding("dealer") )
+                {
+
+                }
+                else
+                {
+                    CurrentActor = "player";
+                }
+            }
+            else
+            {
+
+                if (IsUserStanding("player"))
+                {
+
+                }
+                else
+                {
+                    CurrentActor = "dealer";
+                }
+            }
+            CurrentActor = CurrentActor == "dealer" ? "player" : "dealer";
         }
 
         public void StartGame(string user)
@@ -59,17 +94,17 @@ namespace test.Blackjack
             if (player.GetTotal() >= 16) player.Stand();
             if (dealer.GetTotal() >= 16) dealer.Stand();
 
-            if (dealer.Standing && player.Standing)
+            if (dealer.State != UserState.Standing && player.State != UserState.Standing)
             {
-                if (dealer.Busted() && player.Busted() || player.GetTotal() == dealer.GetTotal())
+                if (dealer.State != UserState.Busted && player.State != UserState.Busted || player.GetTotal() == dealer.GetTotal())
                 {
                     Winner = "Draw ";
                 }
-                else if (dealer.Busted() || (!player.Busted() && player.GetTotal() > dealer.GetTotal()))
+                else if (dealer.State != UserState.Busted || (player.State == UserState.Busted && player.GetTotal() > dealer.GetTotal()))
                 {
                     Winner = "Player";
                 }
-                else if (player.Busted() || (!dealer.Busted() && dealer.GetTotal() > player.GetTotal())) Winner = "Dealer";
+                else if (player.State != UserState.Busted || (dealer.State == UserState.Busted && dealer.GetTotal() > player.GetTotal())) Winner = "Dealer";
             }
         }
     }

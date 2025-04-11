@@ -12,10 +12,24 @@ namespace test
         {
             if (CurrentActor == "dealer")
             {
-                
+                if (Game.IsUserStanding("dealer"))
+                {
+
+                } else
+                {
+                    CurrentActor = "player";
+                }
             } else
             {
 
+                if (Game.IsUserStanding("player"))
+                {
+
+                }
+                else
+                {
+                    CurrentActor = "dealer";
+                }
             }
             CurrentActor = CurrentActor == "dealer" ? "player" : "dealer";
         }
