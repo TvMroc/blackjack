@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static test.Blackjack.Constants;
+﻿using static test.Blackjack.Constants;
 
 namespace test.Blackjack
 {
@@ -20,18 +15,13 @@ namespace test.Blackjack
             if (GetTotal() > 21) State = UserState.Busted;
         }
 
-        public void SetCards(List<Card> cards)
-        {
-            Hand = cards;
-        }
-        public void SetMoney(int money)
-        {
-            Money = money;
-        }
-        public void SetBet(int bet)
-        {
-            Bet = bet;
-        }
+        public void SetCards(List<Card> cards) => Hand = cards;
+       
+        public void SetMoney(int money) => Money = money;
+        
+        public void SetBet(int bet) => Bet = bet;
+      
+        public void SetState(UserState state) => State = state;
 
         public void Stand()
         {
@@ -39,7 +29,7 @@ namespace test.Blackjack
         }
         public void Hit(Deck deck)
         {
-            if (State != UserState.Standing && deck.Value.Count > 0)
+            if (State != UserState.Standing && State != UserState.DoubledDown && deck.Value.Count > 0)
             AddCard(deck.Draw());
         }
         public User(int money)

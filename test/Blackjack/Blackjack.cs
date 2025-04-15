@@ -33,66 +33,51 @@ namespace test.Blackjack
         }
         private string CurrentActor = "dealer";
 
-        public void NextAction()
+        public bool NextAction()
         {
             if (CurrentActor == "dealer")
             {
-                if (IsUserStanding("dealer") )
+                if (!IsUserStanding("dealer") )
                 {
+                    if (user == "dealer")
+                    {
+                        return true;
+                    } else
+                    {
+                        if (dealer.GetTotal() < 16) 
+                        {
+                            dealer.Hit(deck);
+                        } else
+                        {
+                            dealer.Stand();
+                        }
 
-                }
-                else
-                {
-                    CurrentActor = "player";
+                    }
                 }
             }
             else
             {
-
-                if (IsUserStanding("player"))
+                if (!IsUserStanding("player"))
                 {
-
+                    if (user == "player")
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        if (player.GetTotal() < 16)
+                        {
+                            if (player.CanSplit()) player.Split();
+                            if (player.CanDoubleDown()) player.DoubleDown(deck);
+                            player.Hit(deck);
+                        }
+                        else
+                        {
+                            player.Stand();
+                        }
+                    }
                 }
-                else
-                {
-                    CurrentActor = "dealer";
-                }
             }
-            CurrentActor = CurrentActor == "dealer" ? "player" : "dealer";
-        }
-
-        public void StartGame(string user)
-        {
-            this.user = user;
-            player = new Player(500);
-            dealer = new Dealer(500);
-
-            deck = new Deck();
-            for (int i = 0; i < Constants.DeckShuffles; i++)
-            {
-                deck.Shuffle();
-            }
-            player.Hit(deck);
-            dealer.Hit(deck);
-            player.Hit(deck);
-            dealer.Hit(deck);
-
-            while (dealer.GetTotal() < 16)
-            {
-                dealer.Hit(deck);
-            }
-            while (player.GetTotal() < 16)
-            {
-                if (player.CanSplit()) player.Split();
-                if (player.CanDoubleDown()) player.DoubleDown(deck);
-                player.Hit(deck);
-            }
-            while (player.HasSplit && player.GetTotal(true) < 16)
-            {
-                player.Hit(deck, true);
-            }
-            if (player.GetTotal() >= 16) player.Stand();
-            if (dealer.GetTotal() >= 16) dealer.Stand();
 
             if (dealer.State != UserState.Standing && player.State != UserState.Standing)
             {
@@ -106,6 +91,54 @@ namespace test.Blackjack
                 }
                 else if (player.State != UserState.Busted || (dealer.State == UserState.Busted && dealer.GetTotal() > player.GetTotal())) Winner = "Dealer";
             }
+            CurrentActor = CurrentActor == "dealer" ? "player" : "dealer";
+            return false;
+        }
+
+        public void Shuffle()
+        {
+            deck.Shuffle();
+        }
+
+        public void Deal()
+        {
+            player.Hit(deck);
+            dealer.Hit(deck);
+            player.Hit(deck);
+            dealer.Hit(deck);
+        }
+
+        public void Hit()
+        {
+            if (CurrentActor == "dealer")
+            {
+                dealer.Hit(deck);
+            }
+            else
+            {
+                player.Hit(deck);
+            }
+            CurrentActor = CurrentActor == "dealer" ? "player" : "dealer";
+        }
+
+        public void Stand()
+        {
+            if (CurrentActor == "dealer")
+            {
+                dealer.Stand();
+            }
+            else
+            {
+                player.Stand();
+            }
+            CurrentActor = CurrentActor == "dealer" ? "player" : "dealer";
+        }
+
+        public void StartGame(string user)
+        {
+            this.user = user;
+            player = new Player(Constants.startMoney);
+            dealer = new Dealer(Constants.startMoney);
         }
     }
 }

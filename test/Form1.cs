@@ -6,33 +6,6 @@ namespace test
     {
 
         Blackjack.Blackjack Game = new Blackjack.Blackjack { };
-        private string CurrentActor = "dealer";
-
-        public void NextAction()
-        {
-            if (CurrentActor == "dealer")
-            {
-                if (Game.IsUserStanding("dealer"))
-                {
-
-                } else
-                {
-                    CurrentActor = "player";
-                }
-            } else
-            {
-
-                if (Game.IsUserStanding("player"))
-                {
-
-                }
-                else
-                {
-                    CurrentActor = "dealer";
-                }
-            }
-            CurrentActor = CurrentActor == "dealer" ? "player" : "dealer";
-        }
 
         public Form1()
         {
@@ -72,7 +45,6 @@ namespace test
             label1.Text = "Player";
             label2.Text = "Winner";
             label3.Text = "Dealer";
-
         }
     }
 }

@@ -33,15 +33,15 @@ namespace test.Blackjack
             return GetTotal() > Constants.doubleDownRange[0] && GetTotal() < Constants.doubleDownRange[1] && Bet * 2 <= Money && !HasSplit;
         }
 
-        public void AddCard(Card? card)
+        public new void AddCard(Card? card)
         {
             if (card != null) SplitHand.Add(card);
-            if (GetTotal() > 21 || GetTotal(true) > 21) State = UserState.Busted;
+            if (GetTotal() > 21 || GetTotal(true) > 21) SetState(UserState.Busted);
         }
 
         public void Hit(Deck deck, bool splitHit)
         {
-            if (State != Constants.UserState.Standing && deck.Value.Count > 0 && !(AceSplit && SplitHand.Count > 1)) AddCard(deck.Draw(), true);
+            if (State != Constants.UserState.Standing && deck.Value.Count > 0 && !(AceSplit && SplitHand.Count > 1)) AddCard(deck.Draw());
         }
 
         public void DoubleDown(Deck deck)
@@ -60,7 +60,7 @@ namespace test.Blackjack
         {
             if (CanSplit())
             {
-                AddCard(Hand[0], true);
+                AddCard(Hand[0]);
                 if (Hand[0].Label == "Ace") AceSplit = true;
                 HasSplit = true;
                 SetCards([Hand[0]]);
