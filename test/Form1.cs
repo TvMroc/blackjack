@@ -12,26 +12,55 @@ namespace test
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public void Render()
         {
-            Game.StartGame("dealer");
-            button1.Location = new Point(-button1.Size.Width, -button1.Size.Height);
             listBox1.Items.Clear();
-            listBox1.Location = new Point(544, 283);
-
             foreach (Card card in Game.getCards())
             {
                 listBox1.Items.Add(card.Label);
             }
-            label1.Text = "Player: " + Game.GetTotalFor("player").ToString();
-            label2.Text = "Winner: " + Game.Winner;
-            label3.Text = "Dealer: " + Game.GetTotalFor("dealer").ToString();
-            button2.Location = new Point(650, 220);
+            if (Game.GetTotalFor("player").ToString().Length > 0) label1.Text = "Player: " + Game.GetTotalFor("player").ToString();
+            if (Game.Winner.Length > 0) label2.Text = "Winner: " + Game.Winner;
+            if (Game.GetTotalFor("dealer").ToString().Length > 0) label3.Text = "Dealer: " + Game.GetTotalFor("dealer").ToString();
+        }
+
+        public void GameLoop()
+        {
+            if (Game.Winner.Length > 0)
+            {
+                button2.BringToFront();
+                return;
+            }
+            if (!Game.NextAction())
+            {
+                GameLoop();
+                Render();
+                return;
+            } else
+            {
+                button3.BringToFront();
+                button4.BringToFront();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Game.StartGame("dealer");
+            listBox1.BringToFront();
+            button1.SendToBack();
+            Game.Shuffle();
+            Game.Shuffle();
+            Game.Shuffle();
+            Game.Deal();
+            Render();
+            GameLoop();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            button2.SendToBack();
+            button3.SendToBack();
+            button4.SendToBack();
         }
         protected override void OnPaintBackground(PaintEventArgs e)
         {
@@ -39,12 +68,30 @@ namespace test
 
         private void button2_Click(object sender, EventArgs e)
         {
-            button1.Location = new Point(394, 215);
-            listBox1.Location = new Point(-listBox1.Size.Width, -listBox1.Size.Height);
-            button2.Location = new Point(-button2.Size.Width, -button2.Size.Height);
+            button2.SendToBack();
             label1.Text = "Player";
             label2.Text = "Winner";
             label3.Text = "Dealer";
+            button1.BringToFront();
+            listBox1.SendToBack();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Game.Hit();
+            Render();
+            button3.SendToBack();
+            button4.SendToBack();
+            GameLoop();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Game.Stand();
+            Render();
+            button3.SendToBack();
+            button4.SendToBack();
+            GameLoop();
         }
     }
 }

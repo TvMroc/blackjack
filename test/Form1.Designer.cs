@@ -43,6 +43,8 @@ namespace test
             pictureBox2 = new PictureBox();
             listBox1 = new ListBox();
             button2 = new Button();
+            button3 = new Button();
+            button4 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
@@ -71,7 +73,7 @@ namespace test
             label2.AutoSize = true;
             label2.Location = new Point(311, 219);
             label2.Name = "label2";
-            label2.Size = new Size(43, 15);
+            label2.Size = new Size(45, 15);
             label2.TabIndex = 2;
             label2.Text = "Winner";
             // 
@@ -80,7 +82,7 @@ namespace test
             label3.AutoSize = true;
             label3.Location = new Point(411, 334);
             label3.Name = "label3";
-            label3.Size = new Size(39, 15);
+            label3.Size = new Size(40, 15);
             label3.TabIndex = 3;
             label3.Text = "Dealer";
             // 
@@ -105,14 +107,14 @@ namespace test
             // listBox1
             // 
             listBox1.FormattingEnabled = true;
-            listBox1.Location = new Point(592, 557);
+            listBox1.Location = new Point(544, 283);
             listBox1.Name = "listBox1";
             listBox1.Size = new Size(120, 94);
             listBox1.TabIndex = 8;
             // 
             // button2
             // 
-            button2.Location = new Point(-button2.Size.Width, -button2.Size.Height);
+            button2.Location = new Point(650, 220);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 9;
@@ -120,11 +122,33 @@ namespace test
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // button3
+            // 
+            button3.Location = new Point(55, 345);
+            button3.Name = "button3";
+            button3.Size = new Size(75, 23);
+            button3.TabIndex = 10;
+            button3.Text = "Hit";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(147, 345);
+            button4.Name = "button4";
+            button4.Size = new Size(75, 23);
+            button4.TabIndex = 11;
+            button4.Text = "Stand";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(847, 573);
+            Controls.Add(button4);
+            Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(listBox1);
             Controls.Add(pictureBox2);
@@ -152,5 +176,7 @@ namespace test
         private PictureBox pictureBox2;
         private ListBox listBox1;
         private Button button2;
+        private Button button3;
+        private Button button4;
     }
 }
