@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static test.Blackjack.Constants;
 
 namespace test.Blackjack
 {
@@ -11,37 +8,29 @@ namespace test.Blackjack
         public List<Card> Hand { get; private set; } = [];
         public int Money { get; private set; }
         public int Bet { get; private set; } = 0;
-        public bool Standing { get; private set; } = false;
-        public bool Busted()
-        {
-            return GetTotal() > 21;
-        }
+        public UserState State { get; private set; } = UserState.Playing;
 
         public void AddCard(Card? card)
         {
             if (card != null) Hand.Add(card);
+            if (GetTotal() > 21) State = UserState.Busted;
         }
 
-        public void SetCards(List<Card> cards)
-        {
-            Hand = cards;
-        }
-        public void SetMoney(int money)
-        {
-            Money = money;
-        }
-        public void SetBet(int bet)
-        {
-            Bet = bet;
-        }
+        public void SetCards(List<Card> cards) => Hand = cards;
+       
+        public void SetMoney(int money) => Money = money;
+        
+        public void SetBet(int bet) => Bet = bet;
+      
+        public void SetState(UserState state) => State = state;
 
         public void Stand()
         {
-            Standing = true;
+            if (State != UserState.Busted) State = UserState.Standing;
         }
         public void Hit(Deck deck)
         {
-            if (!Standing && deck.Value.Count > 0)
+            if (State != UserState.Standing && deck.Value.Count > 0)
             AddCard(deck.Draw());
         }
         public User(int money)
