@@ -45,13 +45,17 @@ namespace test
             button2 = new Button();
             button3 = new Button();
             button4 = new Button();
+            button5 = new Button();
+            label4 = new Label();
+            label5 = new Label();
+            listBox2 = new ListBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(394, 215);
+            button1.Location = new Point(394, 224);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 0;
@@ -62,7 +66,7 @@ namespace test
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(411, 108);
+            label1.Location = new Point(411, 112);
             label1.Name = "label1";
             label1.Size = new Size(39, 15);
             label1.TabIndex = 1;
@@ -71,7 +75,7 @@ namespace test
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(311, 219);
+            label2.Location = new Point(311, 228);
             label2.Name = "label2";
             label2.Size = new Size(45, 15);
             label2.TabIndex = 2;
@@ -80,7 +84,7 @@ namespace test
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(411, 334);
+            label3.Location = new Point(411, 339);
             label3.Name = "label3";
             label3.Size = new Size(40, 15);
             label3.TabIndex = 3;
@@ -98,11 +102,12 @@ namespace test
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(485, 193);
+            pictureBox2.Location = new Point(485, 204);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(108, 64);
             pictureBox2.TabIndex = 7;
             pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
             // 
             // listBox1
             // 
@@ -114,7 +119,7 @@ namespace test
             // 
             // button2
             // 
-            button2.Location = new Point(650, 220);
+            button2.Location = new Point(600, 225);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 9;
@@ -124,7 +129,7 @@ namespace test
             // 
             // button3
             // 
-            button3.Location = new Point(55, 345);
+            button3.Location = new Point(142, 345);
             button3.Name = "button3";
             button3.Size = new Size(75, 23);
             button3.TabIndex = 10;
@@ -134,7 +139,7 @@ namespace test
             // 
             // button4
             // 
-            button4.Location = new Point(147, 345);
+            button4.Location = new Point(51, 345);
             button4.Name = "button4";
             button4.Size = new Size(75, 23);
             button4.TabIndex = 11;
@@ -142,21 +147,61 @@ namespace test
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
+            // button5
+            // 
+            button5.Location = new Point(503, 159);
+            button5.Name = "button5";
+            button5.Size = new Size(75, 23);
+            button5.TabIndex = 12;
+            button5.Text = "Shuffle";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(346, 339);
+            label4.Name = "label4";
+            label4.Size = new Size(32, 15);
+            label4.TabIndex = 13;
+            label4.Text = "state";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(347, 112);
+            label5.Name = "label5";
+            label5.Size = new Size(32, 15);
+            label5.TabIndex = 14;
+            label5.Text = "state";
+            // 
+            // listBox2
+            // 
+            listBox2.FormattingEnabled = true;
+            listBox2.Location = new Point(544, 95);
+            listBox2.Name = "listBox2";
+            listBox2.Size = new Size(120, 94);
+            listBox2.TabIndex = 15;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(847, 573);
-            Controls.Add(button4);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(listBox1);
-            Controls.Add(pictureBox2);
+            Controls.Add(label5);
+            Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(button1);
             Controls.Add(pictureBox1);
+            Controls.Add(button3);
+            Controls.Add(button4);
+            Controls.Add(button2);
+            Controls.Add(listBox1);
+            Controls.Add(pictureBox2);
+            Controls.Add(button5);
+            Controls.Add(listBox2);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -178,5 +223,9 @@ namespace test
         private Button button2;
         private Button button3;
         private Button button4;
+        private Button button5;
+        private Label label4;
+        private Label label5;
+        private ListBox listBox2;
     }
 }

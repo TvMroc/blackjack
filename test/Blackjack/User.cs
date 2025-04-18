@@ -1,4 +1,5 @@
-﻿using static test.Blackjack.Constants;
+﻿using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static test.Blackjack.Constants;
 
 namespace test.Blackjack
 {
@@ -25,11 +26,11 @@ namespace test.Blackjack
 
         public void Stand()
         {
-            State = UserState.Standing;
+            if (State != UserState.Busted) State = UserState.Standing;
         }
         public void Hit(Deck deck)
         {
-            if (State != UserState.Standing && State != UserState.DoubledDown && deck.Value.Count > 0)
+            if (State != UserState.Standing && deck.Value.Count > 0)
             AddCard(deck.Draw());
         }
         public User(int money)

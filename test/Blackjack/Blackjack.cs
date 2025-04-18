@@ -14,16 +14,18 @@ namespace test.Blackjack
         
         Deck deck = new Deck();
 
-        public List<Card> getCards()
+        public List<Card> getCards(string user)
         {
-            if (user == "player") return player.Hand;
-            return dealer.Hand;
+            if ((Winner != "" || this.user == user) && user == "player") return player.Hand;
+            if ((Winner != "" || this.user == user) && user == "dealer") return dealer.Hand;
+            return new List<Card> { };
         }
 
         public int GetTotalFor(string totalFor)
         {
-            if (totalFor == "player") return player.GetTotal();
-            return dealer.GetTotal();
+            if ((Winner != "" || user == totalFor) && totalFor == "player") return player.GetTotal();
+            if ((Winner != "" || user == totalFor) && totalFor == "dealer") return dealer.GetTotal();
+            return 0;
         }
 
         private string CurrentActor = "dealer";
@@ -34,7 +36,7 @@ namespace test.Blackjack
             {
                 if (dealer.State != UserState.Standing )
                 {
-                    if (user == "dealer")
+                    if (user == "dealer" && dealer.State != UserState.Busted && dealer.State != UserState.Standing)
                     {
                         return true;
                     } else
@@ -54,7 +56,7 @@ namespace test.Blackjack
             {
                 if (player.State != UserState.Standing)
                 {
-                    if (user == "player")
+                    if (user == "player" && player.State != UserState.Busted && player.State != UserState.Standing)
                     {
                         return true;
                     }
@@ -79,14 +81,19 @@ namespace test.Blackjack
                 {
                     Winner = "Draw ";
                 }
-                else if (dealer.State == UserState.Busted || player.State != UserState.Busted && player.GetTotal() > dealer.GetTotal())
+                else if (dealer.State == UserState.Busted && player.State != UserState.Busted || player.State != UserState.Busted && player.GetTotal() > dealer.GetTotal())
                 {
                     Winner = "Player";
                 }
-                else if (player.State == UserState.Busted || dealer.State != UserState.Busted && dealer.GetTotal() > player.GetTotal()) Winner = "Dealer";
+                else if (player.State == UserState.Busted && dealer.State != UserState.Busted || dealer.State != UserState.Busted && dealer.GetTotal() > player.GetTotal()) Winner = "Dealer";
             }
             CurrentActor = CurrentActor == "dealer" ? "player" : "dealer";
             return false;
+        }
+        public UserState GetState(string user)
+        {
+            if (user == "player") return player.State;
+            return dealer.State;
         }
 
         public void Shuffle()
@@ -106,11 +113,11 @@ namespace test.Blackjack
         {
             if (CurrentActor == "dealer")
             {
-                if (dealer.State != UserState.Standing || dealer.State != UserState.Busted) dealer.Hit(deck);
+                if (dealer.State != UserState.Standing && dealer.State != UserState.Busted) dealer.Hit(deck);
             }
             else
             {
-                if (player.State != UserState.Standing || player.State != UserState.Busted) player.Hit(deck);
+                if (player.State != UserState.Standing && player.State != UserState.Busted) player.Hit(deck);
             }
             CurrentActor = CurrentActor == "dealer" ? "player" : "dealer";
         }
