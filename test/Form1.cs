@@ -7,6 +7,7 @@ namespace test
     {
 
         Blackjack.Blackjack Game = new Blackjack.Blackjack { };
+        private int players = 1;
         public bool Started = false;
 
         public Form1()
@@ -28,43 +29,55 @@ namespace test
         public void DealCheck()
         {
             Game.UpdateBusted();
-            if (Game.GetCardCount("player") == 2 && Game.GetCardCount("dealer") == 2)
+            bool allPlayersDealt = true;
+
+            for (int i = 0; i < players; i++)
+            {
+                if (Game.GetCardCount(i) != 2)
+                {
+                    allPlayersDealt = false;
+                    break;
+                }
+            }
+
+            if (allPlayersDealt && Game.GetCardCount(5) == 2)
             {
                 listBox1.BringToFront();
                 button5.SendToBack();
                 GameLoop();
             }
+
             Render();
         }
 
         public void Render()
         {
             listBox1.Items.Clear();
-            foreach (Card card in Game.GetCards("dealer"))
+            foreach (Card card in Game.GetCards(5))
             {
                 listBox1.Items.Add(card.Label);
             }
 
             label1.Text = "Player";
             label3.Text = "Dealer";
-            if (Game.GetState("player") == Constants.UserState.RequestingCard) label1.Text = "Deal player";
-            if (Game.GetState("dealer") == Constants.UserState.RequestingCard) label3.Text = "Deal dealer";
-            label4.Text = Game.GetState("dealer").ToString();
-            label5.Text = Game.GetState("player").ToString();
-            label6.Text = Game.GetCardCount("player").ToString() + " Cards";
-            label7.Text = Game.GetCardCount("dealer").ToString() + " Cards";
+            if (Game.GetState(0) == Constants.UserState.RequestingCard) label1.Text = "Deal player";
+            if (Game.GetState(5) == Constants.UserState.RequestingCard) label3.Text = "Deal dealer";
+            label4.Text = Game.GetState(5).ToString();
+            label5.Text = Game.GetState(0).ToString();
+            label6.Text = Game.GetCardCount(0).ToString() + " Cards";
+            label7.Text = Game.GetCardCount(0).ToString() + " Cards";
             if (Game.Winner.Length > 0)
             {
-                if (Game.GetTotalFor("player").ToString().Length > 0) label6.Text = label6.Text = Game.GetCardCount("player").ToString() + " Cards" + ", Total: " + Game.GetTotalFor("player").ToString();
+                if (Game.GetTotalFor(0).ToString().Length > 0) label6.Text = label6.Text = Game.GetCardCount(0).ToString() + " Cards" + ", Total: " + Game.GetTotalFor(0).ToString();
                 label2.Text = "Winner: " + Game.Winner;
                 listBox2.BringToFront();
                 listBox2.Items.Clear();
-                foreach (Card card in Game.GetCards("player"))
+                foreach (Card card in Game.GetCards(0))
                 {
                     listBox2.Items.Add(card.Label);
                 }
             }
-            if (Game.GetTotalFor("dealer").ToString().Length > 0) label7.Text = Game.GetCardCount("dealer").ToString() + " Cards" + ", Total: " + Game.GetTotalFor("dealer").ToString();
+            if (Game.GetTotalFor(5).ToString().Length > 0) label7.Text = Game.GetCardCount(5).ToString() + " Cards" + ", Total: " + Game.GetTotalFor(5).ToString();
         }
 
         public void GameLoop()
@@ -91,7 +104,7 @@ namespace test
         {
             if (!Started)
             {
-                Game.StartGame("dealer");
+                Game.StartGame(5, players);
                 Started = true;
                 button5.BringToFront();
                 pictureBox2.BringToFront();
@@ -130,7 +143,7 @@ namespace test
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (Game.GetState("player") == Constants.UserState.RequestingCard) return;
+            if (Game.GetState(0) == Constants.UserState.RequestingCard) return;
             Game.Hit();
             Render();
             button3.SendToBack();
@@ -140,7 +153,7 @@ namespace test
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (Game.GetState("player") == Constants.UserState.RequestingCard) return;
+            if (Game.GetState(0) == Constants.UserState.RequestingCard) return;
             Game.Stand();
             Render();
             button3.SendToBack();
@@ -166,13 +179,13 @@ namespace test
 
         private void label3_Click(object sender, EventArgs e)
         {
-            if (Started && Game.GetState("dealer") == Constants.UserState.RequestingCard) Game.Deal("dealer");
+            if (Started && Game.GetState(5) == Constants.UserState.RequestingCard) Game.Deal(5);
             DealCheck();
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-            if (Started && Game.GetState("player") == Constants.UserState.RequestingCard) Game.Deal("player");
+            if (Started && Game.GetState(0) == Constants.UserState.RequestingCard) Game.Deal(0);
             DealCheck();
         }
     }
