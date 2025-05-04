@@ -15,6 +15,7 @@ namespace test.Blackjack
         public enum UserState
         {
             Playing,
+            RequestingCard,
             Standing,
             Busted,
             Forfeitted,
