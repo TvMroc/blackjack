@@ -30,8 +30,11 @@ namespace test.Blackjack
         }
         public void Hit(Deck deck)
         {
-            if (State != UserState.Standing && deck.Value.Count > 0)
-            AddCard(deck.Draw());
+            if (State != UserState.Standing && State != UserState.Busted && deck.Value.Count > 0)
+            {
+                AddCard(deck.Draw());
+                if (Hand.Count >= 2) State = UserState.Playing;
+            }
         }
         public User(int money)
         {

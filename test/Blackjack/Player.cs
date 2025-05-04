@@ -41,7 +41,11 @@ namespace test.Blackjack
 
         public void Hit(Deck deck, bool splitHit)
         {
-            if (State != Constants.UserState.Standing && deck.Value.Count > 0 && !(AceSplit && SplitHand.Count > 1)) AddCard(deck.Draw());
+            if (State != Constants.UserState.Standing && State != UserState.Busted && deck.Value.Count > 0 && !(AceSplit && SplitHand.Count > 1))
+            {
+                AddCard(deck.Draw());
+                if (Hand.Count >= 2) SetState(UserState.Playing);
+            }
         }
 
         public void DoubleDown(Deck deck)

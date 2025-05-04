@@ -14,13 +14,19 @@ namespace test.Blackjack
         
         Deck deck = new Deck();
 
-        public List<Card> getCards(string user)
+        public List<Card> GetCards(string user)
         {
             if ((Winner != "" || this.user == user) && user == "player") return player.Hand;
             if ((Winner != "" || this.user == user) && user == "dealer") return dealer.Hand;
             return new List<Card> { };
         }
 
+        public int GetCardCount(string user)
+        {
+            if (user == "player") return player.Hand.Count;
+            return dealer.Hand.Count;
+
+        }
         public int GetTotalFor(string totalFor)
         {
             if ((Winner != "" || user == totalFor) && totalFor == "player") return player.GetTotal();
@@ -29,6 +35,12 @@ namespace test.Blackjack
         }
 
         private string CurrentActor = "dealer";
+
+        public void UpdateBusted()
+        {
+            if (player.GetTotal() > 21) player.SetState(UserState.Busted);
+            if (dealer.GetTotal() > 21) dealer.SetState(UserState.Busted);
+        }
 
         public bool NextAction()
         {
@@ -43,7 +55,7 @@ namespace test.Blackjack
                     {
                         if (dealer.GetTotal() < 16) 
                         {
-                            dealer.Hit(deck);
+                            dealer.SetState(UserState.RequestingCard);
                         } else
                         {
                             dealer.Stand();
@@ -66,7 +78,7 @@ namespace test.Blackjack
                         {
                             if (player.CanSplit()) player.Split();
                             if (player.CanDoubleDown()) player.DoubleDown(deck);
-                            player.Hit(deck);
+                            player.SetState(UserState.RequestingCard);
                         }
                         else
                         {
@@ -101,23 +113,27 @@ namespace test.Blackjack
             deck.Shuffle();
         }
 
-        public void Deal()
+        public void Deal(string user)
         {
-            player.Hit(deck);
-            dealer.Hit(deck);
-            player.Hit(deck);
-            dealer.Hit(deck);
+            if (user == "player") player.Hit(deck);
+            if (user == "dealer") dealer.Hit(deck);
+        }
+
+        public void Dealing()
+        {
+            dealer.SetState(UserState.RequestingCard);
+            player.SetState(UserState.RequestingCard);
         }
 
         public void Hit()
         {
             if (CurrentActor == "dealer")
             {
-                if (dealer.State != UserState.Standing && dealer.State != UserState.Busted) dealer.Hit(deck);
+                if (dealer.State != UserState.Standing && dealer.State != UserState.Busted) dealer.SetState(UserState.RequestingCard);
             }
             else
             {
-                if (player.State != UserState.Standing && player.State != UserState.Busted) player.Hit(deck);
+                if (player.State != UserState.Standing && player.State != UserState.Busted) player.SetState(UserState.RequestingCard);
             }
             CurrentActor = CurrentActor == "dealer" ? "player" : "dealer";
         }
