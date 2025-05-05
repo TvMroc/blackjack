@@ -37,9 +37,10 @@ namespace test.Blackjack
                 if (Hand.Count >= 2) State = UserState.Playing;
             }
         }
-        public User(int money)
+        public User(int money, string name)
         {
             Money = money;
+            Name = name;
         }
 
         public int GetTotal()

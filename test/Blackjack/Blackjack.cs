@@ -9,8 +9,8 @@ namespace test.Blackjack
     {
         private int user = 5;
 
-        private List<Player> players = [new Player(Constants.startMoney)];
-        private Dealer dealer = new Dealer(Constants.startMoney);
+        private List<Player> players = [new Player(Constants.startMoney, "player")];
+        private Dealer dealer = new Dealer(Constants.startMoney, "dealer");
         private int CurrentPlayer = 0;
         public List<string> Winners { get; private set; } = [];
 
@@ -20,6 +20,11 @@ namespace test.Blackjack
         {
             if (i == 5) return dealer;
             return players[i];
+        }
+
+        public string GetName(int user)
+        {
+            return GetUser(user).Name;
         }
 
         public List<Card> GetCards(int user)
@@ -202,13 +207,13 @@ namespace test.Blackjack
             CycleActor();
         }
 
-        public void StartGame(int user, int playerCount)
+        public void StartGame(int user, int playerCount, List<string> names)
         {
             Winners = [ ];
             this.user = user;
             deck = new Deck();
-            players = [new Player(Constants.startMoney)];
-            dealer = new Dealer(Constants.startMoney);
+            players = [new Player(Constants.startMoney, names[1])];
+            dealer = new Dealer(Constants.startMoney, names[0]);
             CurrentActor = "dealer";
             CurrentPlayer = 0;
 
@@ -216,7 +221,7 @@ namespace test.Blackjack
             if (playerCount < 1) playerCount = 1;
             for (int i = 1; i < playerCount; i++)
             {
-                players.Add(new Player(Constants.startMoney));
+                players.Add(new Player(Constants.startMoney, names[i+1]));
             }
         }
     }

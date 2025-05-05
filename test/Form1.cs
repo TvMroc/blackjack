@@ -6,12 +6,20 @@ namespace test
     public partial class Form1 : Form
     {
         Blackjack.Blackjack Game = new Blackjack.Blackjack { };
-        private int players = 5;
+        private int players = 1;
         public bool Started = false;
 
         public Form1()
         {
             InitializeComponent();
+            playerCountInput.Text = players.ToString();
+            player1Label.Click += (s, e) => Label_Click(s, 0);
+            player2Label.Click += (s, e) => Label_Click(s, 1);
+            player3Label.Click += (s, e) => Label_Click(s, 2);
+            player4Label.Click += (s, e) => Label_Click(s, 3);
+            player5Label.Click += (s, e) => Label_Click(s, 4);
+            dealerLabel.Click += (s, e) => Label_Click(s, 5);
+            UpdateUsers();
         }
 
         private async void ShuffleDeckAnimation()
@@ -47,67 +55,65 @@ namespace test
                 standButton.BringToFront();
                 GameLoop();
             }
-            if ((Game.GetState(5) == Constants.UserState.Busted || Game.GetState(5) == Constants.UserState.Standing) && !(Game.GetState(0) == Constants.UserState.RequestingCard || Game.GetState(1) == Constants.UserState.RequestingCard || Game.GetState(2) == Constants.UserState.RequestingCard || Game.GetState(3) == Constants.UserState.RequestingCard || Game.GetState(4) == Constants.UserState.RequestingCard)) GameLoop();
+
+            bool anyPlayerRequestingCard = false;
+            for (int i = 0; i < players; i++)
+            {
+                if (Game.GetState(i) == Constants.UserState.RequestingCard)
+                {
+                    anyPlayerRequestingCard = true;
+                    break;
+                }
+            }
+
+            if ((Game.GetState(5) == Constants.UserState.Busted || Game.GetState(5) == Constants.UserState.Standing) && !anyPlayerRequestingCard) GameLoop();
             Render();
         }
 
         public void Render()
         {
+            dealerLabel.Text = Game.GetName(5);
+            if (Game.GetState(5) == Constants.UserState.RequestingCard) dealerLabel.Text = "Deal " + Game.GetName(5);
+            dealerState.Text = Game.GetState(5).ToString();
+            dealerCardLabel.Text = Game.GetCardCount(5).ToString() + " Cards";
+
+            for (int i = 0; i < players; i++)
+            {
+                var playerLabel = Controls.Find($"player{i + 1}Label", true).FirstOrDefault() as Label;
+                var playerState = Controls.Find($"player{i + 1}State", true).FirstOrDefault() as Label;
+                var playerCardLabel = Controls.Find($"player{i + 1}CardLabel", true).FirstOrDefault() as Label;
+
+                playerLabel.Text = Game.GetName(i);
+                if (Game.GetState(i) == Constants.UserState.RequestingCard) playerLabel.Text = "Deal " + Game.GetName(i);
+                playerState.Text = Game.GetState(i).ToString();
+                playerCardLabel.Text = Game.GetCardCount(i).ToString() + " Cards";
+            }
+
             dealerCards.Items.Clear();
             foreach (Card card in Game.GetCards(5))
             {
                 dealerCards.Items.Add(card.Label);
             }
 
-            player1Label.Text = "Player";
-            player2Label.Text = "Player";
-            player3Label.Text = "Player";
-            player4Label.Text = "Player";
-            player5Label.Text = "Player";
-            dealerLabel.Text = "Dealer";
-            if (Game.GetState(0) == Constants.UserState.RequestingCard) player1Label.Text = "Deal player";
-            if (Game.GetState(1) == Constants.UserState.RequestingCard) player2Label.Text = "Deal player";
-            if (Game.GetState(2) == Constants.UserState.RequestingCard) player3Label.Text = "Deal player";
-            if (Game.GetState(3) == Constants.UserState.RequestingCard) player4Label.Text = "Deal player";
-            if (Game.GetState(4) == Constants.UserState.RequestingCard) player5Label.Text = "Deal player";
-            if (Game.GetState(5) == Constants.UserState.RequestingCard) dealerLabel.Text = "Deal dealer";
-            player1State.Text = Game.GetState(0).ToString();
-            player2State.Text = Game.GetState(1).ToString();
-            player3State.Text = Game.GetState(2).ToString();
-            player4State.Text = Game.GetState(3).ToString();
-            player5State.Text = Game.GetState(4).ToString();
-            dealerState.Text = Game.GetState(5).ToString();
-            player1CardLabel.Text = Game.GetCardCount(0).ToString() + " Cards";
-            player2CardLabel.Text = Game.GetCardCount(1).ToString() + " Cards";
-            player3CardLabel.Text = Game.GetCardCount(2).ToString() + " Cards";
-            player4CardLabel.Text = Game.GetCardCount(3).ToString() + " Cards";
-            player5CardLabel.Text = Game.GetCardCount(4).ToString() + " Cards";
-            dealerCardLabel.Text = Game.GetCardCount(5).ToString() + " Cards";
             if (Game.Winners.Count > 0)
             {
-                if (Game.GetTotalFor(0).ToString().Length > 0) player1CardLabel.Text = Game.GetCardCount(0).ToString() + " Cards" + ", Total: " + Game.GetTotalFor(0).ToString();
-                if (Game.GetTotalFor(1).ToString().Length > 0) player2CardLabel.Text = Game.GetCardCount(1).ToString() + " Cards" + ", Total: " + Game.GetTotalFor(1).ToString();
-                if (Game.GetTotalFor(2).ToString().Length > 0) player3CardLabel.Text = Game.GetCardCount(2).ToString() + " Cards" + ", Total: " + Game.GetTotalFor(2).ToString();
-                if (Game.GetTotalFor(3).ToString().Length > 0) player4CardLabel.Text = Game.GetCardCount(3).ToString() + " Cards" + ", Total: " + Game.GetTotalFor(3).ToString();
-                if (Game.GetTotalFor(4).ToString().Length > 0) player5CardLabel.Text = Game.GetCardCount(4).ToString() + " Cards" + ", Total: " + Game.GetTotalFor(4).ToString();
-                player1Label.Text = "Player " + Game.Winners[0];
-                player2Label.Text = "Player " + Game.Winners[1];
-                player3Label.Text = "Player " + Game.Winners[2];
-                player4Label.Text = "Player " + Game.Winners[3];
-                player5Label.Text = "Player " + Game.Winners[4];
-
-
                 for (int i = 0; i < players; i++)
                 {
+                    var playerLabel = Controls.Find($"player{i + 1}Label", true).FirstOrDefault() as Label;
                     var playerCards = Controls.Find($"player{i + 1}Cards", true).FirstOrDefault() as ListBox;
-                    if (playerCards != null)
+                    var playerCardLabel = Controls.Find($"player{i + 1}CardLabel", true).FirstOrDefault() as Label;
+                    var total = Game.GetTotalFor(i);
+                    if (total.ToString().Length > 0) playerCardLabel.Text = Game.GetCardCount(i).ToString() + " Cards" + ", Total: " + total.ToString();
+
+                    foreach (Card card in Game.GetCards(i))
                     {
-                        playerCards.BringToFront();
-                        playerCards.Items.Clear();
-                        foreach (Card card in Game.GetCards(i))
-                        {
-                            playerCards.Items.Add(card.Label);
-                        }
+                        playerLabel.Text = Game.GetName(i) + " " + Game.Winners[i];
+                    }
+                    playerCards.BringToFront();
+                    playerCards.Items.Clear();
+                    foreach (Card card in Game.GetCards(i))
+                    {
+                        playerCards.Items.Add(card.Label);
                     }
                 }
             }
@@ -133,15 +139,16 @@ namespace test
         {
             if (!Started)
             {
-                Game.StartGame(5, players);
+                HideNameInputs();
+                Game.StartGame(5, players, [dealerNameInput.Text, player1NameInput.Text, player2NameInput.Text, player3NameInput.Text, player4NameInput.Text, player5NameInput.Text]);
                 Started = true;
                 shuffleButton.BringToFront();
                 cardsImage.BringToFront();
-                player1CardLabel.BringToFront();
-                player2CardLabel.BringToFront();
-                player3CardLabel.BringToFront();
-                player4CardLabel.BringToFront();
-                player5CardLabel.BringToFront();
+                for (int i = 0; i < players; i++)
+                {
+                    var playerCardLabel = Controls.Find($"player{i + 1}CardLabel", true).FirstOrDefault() as Label;
+                    playerCardLabel.BringToFront();
+                }
                 dealerCardLabel.BringToFront();
                 startButton.SendToBack();
                 Game.Dealing();
@@ -158,40 +165,34 @@ namespace test
 
         private void restartButton_Click(object sender, EventArgs e)
         {
-            restartButton.SendToBack();
             Started = false;
             startButton.Text = "Start";
-            player1Label.Text = "Player";
-            player2Label.Text = "Player";
-            player3Label.Text = "Player";
-            player4Label.Text = "Player";
-            player5Label.Text = "Player";
-            player1State.Text = "state";
-            player2State.Text = "state";
-            player3State.Text = "state";
-            player4State.Text = "state";
-            player5State.Text = "state";
-            dealerState.Text = "state";
-            player1CardLabel.Text = "0 cards";
-            player2CardLabel.Text = "0 cards";
-            player3CardLabel.Text = "0 cards";
-            player4CardLabel.Text = "0 cards";
-            player5CardLabel.Text = "0 cards";
-            dealerCardLabel.Text = "0 cards";
+            restartButton.SendToBack();
             startButton.BringToFront();
-            player1Cards.SendToBack();
-            player2Cards.SendToBack();
-            player3Cards.SendToBack();
-            player4Cards.SendToBack();
-            player5Cards.SendToBack();
+
+            for (int i = 0; i < players; i++)
+            {
+                var playerLabel = Controls.Find($"player{i + 1}Label", true).FirstOrDefault() as Label;
+                var playerState = Controls.Find($"player{i + 1}State", true).FirstOrDefault() as Label;
+                var playerCardLabel = Controls.Find($"player{i + 1}CardLabel", true).FirstOrDefault() as Label;
+                var playerCards = Controls.Find($"player{i + 1}Cards", true).FirstOrDefault() as ListBox;
+                playerLabel.Text = "Player";
+                playerState.Text = "state";
+                playerCardLabel.Text = "0 cards";
+                playerCardLabel.SendToBack();
+                playerCards.SendToBack();
+            }
+            dealerState.Text = "state";
+            dealerCardLabel.Text = "0 cards";
             dealerCards.SendToBack();
-            player1CardLabel.SendToBack();
-            player2CardLabel.SendToBack();
-            player3CardLabel.SendToBack();
-            player4CardLabel.SendToBack();
-            player5CardLabel.SendToBack();
             dealerCardLabel.SendToBack();
             cardsImage.SendToBack();
+            UpdateUsers();
+            DealerNameLabel.BringToFront();
+            playerCountLabel.BringToFront();
+            dealerNameInput.BringToFront();
+            playerCountInput.BringToFront();
+            NamesLabel.BringToFront();
         }
 
         private void hitButton_Click(object sender, EventArgs e)
@@ -224,10 +225,92 @@ namespace test
             Game.Shuffle();
             ShuffleDeckAnimation();
         }
+
         private void Label_Click(object sender, int userIndex)
         {
             if (Started && Game.GetState(userIndex) == Constants.UserState.RequestingCard) Game.Deal(userIndex);
             DealCheck();
+        }
+
+        private void playerCountInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void playerCountInput_KeyUp(object sender, EventArgs e)
+        {
+            Max5Min1UpdateCount();
+        }
+
+        private void playerCountInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void Max5Min1UpdateCount()
+        {
+            if (int.TryParse(playerCountInput.Text, out int value))
+            {
+                if (value < 1)
+                    value = 1;
+                else if (value > 5)
+                    value = 5;
+
+                playerCountInput.Text = value.ToString();
+                players = value;
+                UpdateUsers();
+            }
+            else
+            {
+                playerCountInput.Text = string.Empty;
+            }
+        }
+
+        private void UpdateUsers()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                var playerLabel = Controls.Find($"player{i + 1}Label", true).FirstOrDefault() as Label;
+                var playerState = Controls.Find($"player{i + 1}State", true).FirstOrDefault() as Label;
+                var playerCardLabel = Controls.Find($"player{i + 1}CardLabel", true).FirstOrDefault() as Label;
+                var playerNameInput = Controls.Find($"player{i + 1}NameInput", true).FirstOrDefault() as TextBox;
+                playerLabel.SendToBack();
+                playerState.SendToBack();
+                playerCardLabel.SendToBack();
+                playerNameInput.SendToBack();
+            }
+
+            for (int i = 0; i < players; i++)
+            {
+                var playerLabel = Controls.Find($"player{i + 1}Label", true).FirstOrDefault() as Label;
+                var playerState = Controls.Find($"player{i + 1}State", true).FirstOrDefault() as Label;
+                var playerCardLabel = Controls.Find($"player{i + 1}CardLabel", true).FirstOrDefault() as Label;
+                var playerNameInput = Controls.Find($"player{i + 1}NameInput", true).FirstOrDefault() as TextBox;
+                playerLabel.BringToFront();
+                playerState.BringToFront();
+                playerCardLabel.BringToFront();
+                playerNameInput.BringToFront(); 
+            }
+        }
+        private void HideNameInputs()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                var playerNameInput = Controls.Find($"player{i + 1}NameInput", true).FirstOrDefault() as TextBox;
+                playerNameInput.SendToBack();
+            }
+            DealerNameLabel.SendToBack();
+            playerCountLabel.SendToBack();
+            dealerNameInput.SendToBack();
+            playerCountInput.SendToBack();
+            NamesLabel.SendToBack();
         }
     }
 }

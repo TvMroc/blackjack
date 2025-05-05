@@ -7,7 +7,7 @@ namespace test.Blackjack
         public List<Card> SplitHand { get; private set; } = [];
         private bool AceSplit = false;
         public bool HasSplit { get; private set; } = false;
-        public Player(int money) : base(money)
+        public Player(int money, string name) : base(money, name)
         {
         }
 

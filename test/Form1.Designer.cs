@@ -66,6 +66,16 @@ namespace test
             player5State = new Label();
             player5Label = new Label();
             player5Cards = new ListBox();
+            playerCountInput = new TextBox();
+            player1NameInput = new TextBox();
+            player2NameInput = new TextBox();
+            player3NameInput = new TextBox();
+            player4NameInput = new TextBox();
+            player5NameInput = new TextBox();
+            NamesLabel = new Label();
+            dealerNameInput = new TextBox();
+            DealerNameLabel = new Label();
+            playerCountLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)tableImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)cardsImage).BeginInit();
             SuspendLayout();
@@ -88,7 +98,6 @@ namespace test
             player1Label.Size = new Size(39, 15);
             player1Label.TabIndex = 1;
             player1Label.Text = "Player";
-            player1Label.Click += (s, e) => Label_Click(s, 0);
             // 
             // dealerLabel
             // 
@@ -98,7 +107,6 @@ namespace test
             dealerLabel.Size = new Size(40, 15);
             dealerLabel.TabIndex = 3;
             dealerLabel.Text = "Dealer";
-            dealerLabel.Click += (s, e) => Label_Click(s, 5);
             // 
             // tableImage
             // 
@@ -244,7 +252,6 @@ namespace test
             player2Label.Size = new Size(39, 15);
             player2Label.TabIndex = 21;
             player2Label.Text = "Player";
-            player2Label.Click += (s, e) => Label_Click(s, 1);
             // 
             // player3CardLabel
             // 
@@ -272,7 +279,6 @@ namespace test
             player3Label.Size = new Size(39, 15);
             player3Label.TabIndex = 24;
             player3Label.Text = "Player";
-            player3Label.Click += (s, e) => Label_Click(s, 2);
             // 
             // player3Cards
             // 
@@ -308,7 +314,6 @@ namespace test
             player4Label.Size = new Size(39, 15);
             player4Label.TabIndex = 28;
             player4Label.Text = "Player";
-            player4Label.Click += (s, e) => Label_Click(s, 3);
             // 
             // player4Cards
             // 
@@ -344,7 +349,6 @@ namespace test
             player5Label.Size = new Size(39, 15);
             player5Label.TabIndex = 32;
             player5Label.Text = "Player";
-            player5Label.Click += (s, e) => Label_Click(s, 4);
             // 
             // player5Cards
             // 
@@ -354,27 +358,119 @@ namespace test
             player5Cards.Size = new Size(40, 64);
             player5Cards.TabIndex = 33;
             // 
+            // playerCountInput
+            // 
+            playerCountInput.Location = new Point(319, 398);
+            playerCountInput.Name = "playerCountInput";
+            playerCountInput.Size = new Size(100, 23);
+            playerCountInput.TabIndex = 34;
+            playerCountInput.Text = "1";
+            playerCountInput.KeyDown += playerCountInput_KeyDown;
+            playerCountInput.KeyPress += playerCountInput_KeyPress;
+            playerCountInput.KeyUp += playerCountInput_KeyUp;
+            // 
+            // player1NameInput
+            // 
+            player1NameInput.Location = new Point(484, 379);
+            player1NameInput.Name = "player1NameInput";
+            player1NameInput.Size = new Size(100, 23);
+            player1NameInput.TabIndex = 35;
+            player1NameInput.Text = "Player1";
+            // 
+            // player2NameInput
+            // 
+            player2NameInput.Location = new Point(584, 379);
+            player2NameInput.Name = "player2NameInput";
+            player2NameInput.Size = new Size(100, 23);
+            player2NameInput.TabIndex = 36;
+            player2NameInput.Text = "Player2";
+            // 
+            // player3NameInput
+            // 
+            player3NameInput.Location = new Point(684, 379);
+            player3NameInput.Name = "player3NameInput";
+            player3NameInput.Size = new Size(100, 23);
+            player3NameInput.TabIndex = 37;
+            player3NameInput.Text = "Player3";
+            // 
+            // player4NameInput
+            // 
+            player4NameInput.Location = new Point(484, 402);
+            player4NameInput.Name = "player4NameInput";
+            player4NameInput.Size = new Size(100, 23);
+            player4NameInput.TabIndex = 38;
+            player4NameInput.Text = "Player4";
+            // 
+            // player5NameInput
+            // 
+            player5NameInput.Location = new Point(584, 402);
+            player5NameInput.Name = "player5NameInput";
+            player5NameInput.Size = new Size(100, 23);
+            player5NameInput.TabIndex = 39;
+            player5NameInput.Text = "Player5";
+            // 
+            // NamesLabel
+            // 
+            NamesLabel.AutoSize = true;
+            NamesLabel.Location = new Point(435, 393);
+            NamesLabel.Name = "NamesLabel";
+            NamesLabel.Size = new Size(47, 15);
+            NamesLabel.TabIndex = 40;
+            NamesLabel.Text = "Names:";
+            // 
+            // dealerNameInput
+            // 
+            dealerNameInput.Location = new Point(51, 399);
+            dealerNameInput.Name = "dealerNameInput";
+            dealerNameInput.Size = new Size(100, 23);
+            dealerNameInput.TabIndex = 41;
+            dealerNameInput.Text = "Dealer";
+            // 
+            // DealerNameLabel
+            // 
+            DealerNameLabel.AutoSize = true;
+            DealerNameLabel.Location = new Point(78, 383);
+            DealerNameLabel.Name = "DealerNameLabel";
+            DealerNameLabel.Size = new Size(42, 15);
+            DealerNameLabel.TabIndex = 42;
+            DealerNameLabel.Text = "Name:";
+            // 
+            // playerCountLabel
+            // 
+            playerCountLabel.AutoSize = true;
+            playerCountLabel.Location = new Point(331, 382);
+            playerCountLabel.Name = "playerCountLabel";
+            playerCountLabel.Size = new Size(76, 15);
+            playerCountLabel.TabIndex = 43;
+            playerCountLabel.Text = "Player count:";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(847, 573);
-            Controls.Add(player5Cards);
+            Controls.Add(playerCountLabel);
+            Controls.Add(DealerNameLabel);
+            Controls.Add(dealerNameInput);
+            Controls.Add(NamesLabel);
+            Controls.Add(player5NameInput);
+            Controls.Add(player4NameInput);
+            Controls.Add(player3NameInput);
+            Controls.Add(player2NameInput);
+            Controls.Add(player1NameInput);
+            Controls.Add(playerCountInput);
             Controls.Add(player5Label);
             Controls.Add(player5State);
             Controls.Add(player5CardLabel);
-            Controls.Add(player4Cards);
             Controls.Add(player4Label);
             Controls.Add(player4State);
             Controls.Add(player4CardLabel);
-            Controls.Add(player3Cards);
             Controls.Add(player3Label);
             Controls.Add(player3State);
             Controls.Add(player3CardLabel);
             Controls.Add(player2Label);
             Controls.Add(player2State);
             Controls.Add(player2CardLabel);
-            Controls.Add(player2Cards);
             Controls.Add(dealerCardLabel);
             Controls.Add(player1CardLabel);
             Controls.Add(player1State);
@@ -382,14 +478,18 @@ namespace test
             Controls.Add(dealerLabel);
             Controls.Add(player1Label);
             Controls.Add(startButton);
-            Controls.Add(shuffleButton);
-            Controls.Add(cardsImage);
-            Controls.Add(player1Cards);
-            Controls.Add(dealerCards);
             Controls.Add(tableImage);
             Controls.Add(restartButton);
             Controls.Add(hitButton);
             Controls.Add(standButton);
+            Controls.Add(player5Cards);
+            Controls.Add(player2Cards);
+            Controls.Add(player1Cards);
+            Controls.Add(player3Cards);
+            Controls.Add(player4Cards);
+            Controls.Add(dealerCards);
+            Controls.Add(shuffleButton);
+            Controls.Add(cardsImage);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -432,5 +532,15 @@ namespace test
         private Label player5State;
         private Label player5Label;
         private ListBox player5Cards;
+        private TextBox playerCountInput;
+        private TextBox player1NameInput;
+        private TextBox player2NameInput;
+        private TextBox player3NameInput;
+        private TextBox player4NameInput;
+        private TextBox player5NameInput;
+        private Label NamesLabel;
+        private TextBox dealerNameInput;
+        private Label DealerNameLabel;
+        private Label playerCountLabel;
     }
 }

@@ -4,7 +4,7 @@ namespace test.Blackjack
 {
     class Dealer : User
     {
-        public Dealer(int money) : base(money)
+        public Dealer(int money, string name) : base(money, name)
         {
 
         }
