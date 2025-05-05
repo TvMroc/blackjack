@@ -6,75 +6,114 @@ namespace test.Blackjack
     {
         public List<Card> SplitHand { get; private set; } = [];
         private bool AceSplit = false;
+        public UserState SplitHandState = UserState.Playing;
         public bool HasSplit { get; private set; } = false;
-        public Player(int money, string name) : base(money, name)
+        public bool DoubledDown { get; private set; } = false;
+        public bool SplitDoubledDown { get; private set; } = false;
+        public bool SplitMove { get; private set; } = false;
+
+        public Player(int money, string name) : base(money, name) { }
+
+        public int GetTotal()
         {
+            return CalculateTotal(Hand);
         }
 
-        public int GetTotal(bool splitTotal)
+        public int GetSplitTotal()
         {
-            int total = SplitHand.Where(x => x.Label != "Ace").Sum(x => x.Value[0]);
-            List<Card> Aces = [.. SplitHand.Where(x => x.Label == "Ace")];
+            return CalculateTotal(SplitHand);
+        }
+        public int GetCurrentTotal()
+        {
+            return SplitMove ? GetSplitTotal() : GetTotal();
+        }
+
+        private int CalculateTotal(List<Card> hand)
+        {
+            int total = hand.Where(x => x.Label != "Ace").Sum(x => x.Value[0]);
+            List<Card> Aces = hand.Where(x => x.Label == "Ace").ToList();
             foreach (Card card in Aces)
             {
                 total = total + (total + card.Value[0] > 21 ? card.Value[1] : card.Value[0]);
-                card.Value[1] = 0;
             }
             return total;
         }
 
         public bool CanSplit()
         {
-            return Hand.Count == 2 && Hand[0] == Hand[1];
+            return Hand.Count == 2 && Hand[0].Label == Hand[1].Label;
         }
 
         public bool CanDoubleDown()
         {
-            return GetTotal() > Constants.doubleDownRange[0] && GetTotal() < Constants.doubleDownRange[1] && Bet * 2 <= Money && !HasSplit;
+            int total = GetCurrentTotal();
+            return total >= Constants.doubleDownRange[0] && total <= Constants.doubleDownRange[1] && Bet * 2 <= Money;
         }
 
         public new void AddCard(Card? card)
         {
-            if (card != null) SplitHand.Add(card);
-            if (GetTotal() > 21 || GetTotal(true) > 21) SetState(UserState.Busted);
+            if (card != null)
+            {
+                if (SplitMove) SplitHand.Add(card);
+                else Hand.Add(card);
+            }
+
+            if (GetCurrentTotal() > 21)
+                SetState(UserState.Busted);
         }
 
-        public void Hit(Deck deck, bool splitHit)
+        public void Hit(Deck deck)
         {
-            if (State != Constants.UserState.Standing && State != UserState.Busted && deck.Value.Count > 0 && !(AceSplit && SplitHand.Count > 1))
+            if (State != UserState.Standing && State != UserState.Busted && deck.Value.Count > 0 && !(AceSplit && SplitHand.Count > 1))
             {
                 AddCard(deck.Draw());
-                if (Hand.Count >= 2) SetState(UserState.Playing);
+                if (!SplitMove && Hand.Count >= 2)
+                    SetState(UserState.Playing);
             }
         }
 
-        public void DoubleDown(Deck deck)
+        public void DoubleDown()
         {
             if (CanDoubleDown())
             {
                 SetBet(Bet * 2);
-                Hit(deck);
-                Stand();
-                return;
+                SetState(UserState.RequestingCard);
+                if (!SplitMove) 
+                {
+                    DoubledDown = true;
+                }
+                else SplitDoubledDown = true;
             }
-            Console.WriteLine("Not enough money");
+            else
+            {
+                Console.WriteLine("Not enough money");
+            }
         }
 
         public void Split()
         {
-            if (CanSplit())
-            {
-                AddCard(Hand[0]);
-                if (Hand[0].Label == "Ace") AceSplit = true;
-                HasSplit = true;
-                SetCards([Hand[0]]);
-            }
+            if (!CanSplit()) return;
+
+            Card secondCard = Hand[1];
+            SplitHand = new List<Card> { secondCard };
+            SetCards(new List<Card> { Hand[0] });
+
+            HasSplit = true;
+            SplitMove = false;
+
+            if (Hand[0].Label == "Ace") AceSplit = true;
+            SetState(UserState.RequestingCard);
         }
 
         public void Surrender()
         {
             SetBet(Bet / 2);
             Stand();
+        }
+
+        public void SetSplitMove(bool isSplitMove)
+        {
+            SplitMove = isSplitMove;
         }
     }
 }

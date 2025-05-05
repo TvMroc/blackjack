@@ -1,18 +1,15 @@
-﻿using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
-using static test.Blackjack.Constants;
-using static test.Blackjack.Deck;
-using static test.Blackjack.Player;
+﻿using static test.Blackjack.Constants;
 
 namespace test.Blackjack
 {
     class Blackjack
     {
         private int user = 5;
-
         private List<Player> players = [new Player(Constants.startMoney, "player")];
-        private Dealer dealer = new Dealer(Constants.startMoney, "dealer");
+        private Dealer dealer = new Dealer(Constants.dealerMoney, "dealer");
         private int CurrentPlayer = 0;
         public List<string> Winners { get; private set; } = [];
+        public List<string> SplitWinners { get; private set; } = [];
 
         Deck deck = new Deck();
 
@@ -32,14 +29,33 @@ namespace test.Blackjack
             if (Winners.Count > 0 || this.user == user) return GetUser(user).Hand;
             return new List<Card> { };
         }
+        public List<Card> GetSplitCards(int user)
+        {
+            var splitPlayer = GetUser(user);
+            if (splitPlayer is Player player && player.HasSplit && (Winners.Count > 0 || this.user == user)) return player.SplitHand;
+            return new List<Card> { };
+        }
 
         public int GetCardCount(int user)
         {
             return GetUser(user).Hand.Count;
         }
-        public int GetTotalFor(int user)
+        public int GetSplitCardCount(int user)
         {
-            if (Winners.Count > 0 || this.user ==user) return GetUser(user).GetTotal();
+            var splitPlayer = GetUser(user);
+            if (splitPlayer is Player player && player.HasSplit) return player.SplitHand.Count;
+            return 0;
+        }
+        public int GetTotal(int user)
+        {
+            if (Winners.Count > 0 || this.user == user) return GetUser(user).GetTotal();
+            return 0;
+        }
+
+        public int GetSplitTotal(int user)
+        {
+            var splitPlayer = GetUser(user);
+            if (splitPlayer is Player player && player.HasSplit && (Winners.Count > 0 || this.user == user)) return player.GetSplitTotal();
             return 0;
         }
 
@@ -53,6 +69,14 @@ namespace test.Blackjack
             }
             if (dealer.GetTotal() > 21) dealer.SetState(UserState.Busted);
         }
+
+        public bool HasSplit(int user)
+        {
+            var splitPlayer = GetUser(user);
+            if (splitPlayer is Player player) return player.HasSplit;
+            return false;
+        }
+
 
         public bool NextAction()
         {
@@ -79,23 +103,38 @@ namespace test.Blackjack
             }
             else
             {
-                if (players[CurrentPlayer].State != UserState.Standing && players[CurrentPlayer].State != UserState.Busted && players[CurrentPlayer].State != UserState.RequestingCard)
+                if (user == CurrentPlayer)
                 {
-                    if (user == CurrentPlayer)
+                    return true;
+                } else
+                {
+                    var player = (Player)GetUser(CurrentPlayer);
+                    if (player.CanSplit())
                     {
-                        return true;
+                        player.Split();
+                        player.SetState(UserState.RequestingCard);
                     }
                     else
                     {
-                        if (players[CurrentPlayer].GetTotal() < 16)
+                        if (player.HasSplit)
                         {
-                            if (players[CurrentPlayer].CanSplit()) players[CurrentPlayer].Split();
-                            if (players[CurrentPlayer].CanDoubleDown()) players[CurrentPlayer].DoubleDown(deck);
-                            players[CurrentPlayer].SetState(UserState.RequestingCard);
+                            if (player.GetTotal() < 16 && player.SplitMove && player.State != UserState.Standing) player.SetSplitMove(false);
+                            if (player.GetSplitTotal() < 16 && !player.SplitMove && player.SplitHandState != UserState.Standing) player.SetSplitMove(true);
+                        }
+                        var total = player.GetCurrentTotal();
+                        if (total < 16)
+                        {
+                            if (player.CanDoubleDown())
+                            {
+                                player.DoubleDown();
+                            } else
+                            {
+                                player.SetState(UserState.RequestingCard);
+                            }
                         }
                         else
                         {
-                            players[CurrentPlayer].Stand();
+                            player.Stand();
                         }
                     }
                 }
@@ -104,12 +143,24 @@ namespace test.Blackjack
             bool allStandingOrBusted = dealer.State == UserState.Standing || dealer.State == UserState.Busted;
             foreach (var player in players)
             {
-                if (player.State != UserState.Standing && player.State != UserState.Busted)
+                if (player.HasSplit)
                 {
-                    allStandingOrBusted = false;
-                    break;
+                    if (!(player.State == UserState.Standing || player.State == UserState.Busted) || !(player.SplitHandState == UserState.Standing || player.SplitHandState == UserState.Busted))
+                    {
+                        allStandingOrBusted = false;
+                        break;
+                    }
+                }
+                else
+                {
+                    if (player.State != UserState.Standing && player.State != UserState.Busted)
+                    {
+                        allStandingOrBusted = false;
+                        break;
+                    }
                 }
             }
+
 
             if (allStandingOrBusted) FindWinners();
 
@@ -122,25 +173,32 @@ namespace test.Blackjack
             for (int i = 0; i < players.Count; i++)
             {
                 var player = players[i];
-                if ((dealer.State == UserState.Standing || dealer.State == UserState.Busted) && (player.State == UserState.Standing || player.State == UserState.Busted))
+                if (player.HasSplit)
                 {
-                    if ((dealer.State == UserState.Busted && player.State == UserState.Busted) ||
-                        (player.GetTotal() == dealer.GetTotal()))
-                    {
-                        Winners.Add("Draw");
-                    }
-                    else if (dealer.State == UserState.Busted && player.State != UserState.Busted ||
-                             player.State != UserState.Busted && player.GetTotal() > dealer.GetTotal())
-                    {
-                        Winners.Add("Won");
-                    }
-                    else if (player.State == UserState.Busted && dealer.State != UserState.Busted ||
-                             dealer.State != UserState.Busted && dealer.GetTotal() > player.GetTotal())
-                    {
-                        Winners.Add("Lost");
-                    }
+                    SplitWinners.Add(FindWinner(dealer.GetTotal(), player.GetSplitTotal(), dealer.State, player.SplitHandState));
+                }
+                else
+                {
+                    Winners.Add(FindWinner(dealer.GetTotal(), player.GetTotal(), dealer.State, player.State));
                 }
             }
+        }
+
+        private string FindWinner(int dealerTotal, int playerTotal, UserState dealerState, UserState playerState)
+        {
+            if ((dealerState == UserState.Busted && playerState == UserState.Busted) || (playerTotal == dealerTotal))
+            {
+                return "Draw";
+            }
+            else if (dealerState == UserState.Busted && playerState != UserState.Busted || playerState != UserState.Busted && playerTotal > dealerTotal)
+            {
+                return "Won";
+            }
+            else if (playerState == UserState.Busted && dealerState != UserState.Busted || dealerState != UserState.Busted && dealerTotal > playerTotal)
+            {
+                return "Lost";
+            }
+            return "Draw";
         }
 
         public void CycleActor()
@@ -213,7 +271,7 @@ namespace test.Blackjack
             this.user = user;
             deck = new Deck();
             players = [new Player(Constants.startMoney, names[1])];
-            dealer = new Dealer(Constants.startMoney, names[0]);
+            dealer = new Dealer(Constants.dealerMoney, names[0]);
             CurrentActor = "dealer";
             CurrentPlayer = 0;
 

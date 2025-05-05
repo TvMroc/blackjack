@@ -102,7 +102,10 @@ namespace test
                     var playerLabel = Controls.Find($"player{i + 1}Label", true).FirstOrDefault() as Label;
                     var playerCards = Controls.Find($"player{i + 1}Cards", true).FirstOrDefault() as ListBox;
                     var playerCardLabel = Controls.Find($"player{i + 1}CardLabel", true).FirstOrDefault() as Label;
-                    var total = Game.GetTotalFor(i);
+                    var splitCards = Controls.Find($"player{i + 1}SplitCards", true).FirstOrDefault() as ListBox;
+                    var splitLabel = Controls.Find($"player{i + 1}SplitLabel", true).FirstOrDefault() as Label;
+                    var total = Game.GetTotal(i);
+
                     if (total.ToString().Length > 0) playerCardLabel.Text = Game.GetCardCount(i).ToString() + " Cards" + ", Total: " + total.ToString();
 
                     foreach (Card card in Game.GetCards(i))
@@ -115,9 +118,25 @@ namespace test
                     {
                         playerCards.Items.Add(card.Label);
                     }
+
+                    splitCards.SendToBack();
+                    splitLabel.SendToBack();
+                    if (Game.HasSplit(i))
+                    {
+                        splitCards.BringToFront();
+                        splitCards.Items.Clear();
+                        foreach (Card card in Game.GetSplitCards(i))
+                        {
+                            splitCards.Items.Add(card.Label);
+                        }
+
+                        int splitTotal = Game.GetSplitTotal(i);
+                        splitLabel.BringToFront();
+                        splitLabel.Text = "Split: " + splitTotal.ToString();
+                    }
                 }
             }
-            if (Game.GetTotalFor(5).ToString().Length > 0) dealerCardLabel.Text = Game.GetCardCount(5).ToString() + " Cards" + ", Total: " + Game.GetTotalFor(5).ToString();
+            if (Game.GetTotal(5).ToString().Length > 0) dealerCardLabel.Text = Game.GetCardCount(5).ToString() + " Cards" + ", Total: " + Game.GetTotal(5).ToString();
         }
 
         public void GameLoop()
@@ -125,6 +144,8 @@ namespace test
             if (Game.Winners.Count > 0)
             {
                 restartButton.BringToFront();
+                hitButton.SendToBack();
+                standButton.SendToBack();
                 return;
             }
             if (!Game.NextAction())
@@ -166,7 +187,6 @@ namespace test
         private void restartButton_Click(object sender, EventArgs e)
         {
             Started = false;
-            startButton.Text = "Start";
             restartButton.SendToBack();
             startButton.BringToFront();
 

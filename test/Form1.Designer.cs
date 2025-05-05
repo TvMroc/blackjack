@@ -76,6 +76,16 @@ namespace test
             dealerNameInput = new TextBox();
             DealerNameLabel = new Label();
             playerCountLabel = new Label();
+            player1SplitCards = new ListBox();
+            player2SplitCards = new ListBox();
+            player3SplitCards = new ListBox();
+            player4SplitCards = new ListBox();
+            player5SplitCards = new ListBox();
+            player1SplitLabel = new Label();
+            player2SplitLabel = new Label();
+            player3SplitLabel = new Label();
+            player4SplitLabel = new Label();
+            player5SplitLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)tableImage).BeginInit();
             ((System.ComponentModel.ISupportInitialize)cardsImage).BeginInit();
             SuspendLayout();
@@ -93,7 +103,7 @@ namespace test
             // player1Label
             // 
             player1Label.AutoSize = true;
-            player1Label.Location = new Point(428, 128);
+            player1Label.Location = new Point(451, 130);
             player1Label.Name = "player1Label";
             player1Label.Size = new Size(39, 15);
             player1Label.TabIndex = 1;
@@ -186,7 +196,7 @@ namespace test
             // player1State
             // 
             player1State.AutoSize = true;
-            player1State.Location = new Point(428, 112);
+            player1State.Location = new Point(451, 114);
             player1State.Name = "player1State";
             player1State.Size = new Size(32, 15);
             player1State.TabIndex = 14;
@@ -195,7 +205,7 @@ namespace test
             // player1Cards
             // 
             player1Cards.FormattingEnabled = true;
-            player1Cards.Location = new Point(388, 95);
+            player1Cards.Location = new Point(411, 98);
             player1Cards.Name = "player1Cards";
             player1Cards.Size = new Size(40, 64);
             player1Cards.TabIndex = 15;
@@ -203,7 +213,7 @@ namespace test
             // player1CardLabel
             // 
             player1CardLabel.AutoSize = true;
-            player1CardLabel.Location = new Point(428, 96);
+            player1CardLabel.Location = new Point(451, 98);
             player1CardLabel.Name = "player1CardLabel";
             player1CardLabel.Size = new Size(37, 15);
             player1CardLabel.TabIndex = 16;
@@ -221,7 +231,7 @@ namespace test
             // player2Cards
             // 
             player2Cards.FormattingEnabled = true;
-            player2Cards.Location = new Point(177, 95);
+            player2Cards.Location = new Point(200, 98);
             player2Cards.Name = "player2Cards";
             player2Cards.Size = new Size(40, 64);
             player2Cards.TabIndex = 18;
@@ -229,7 +239,7 @@ namespace test
             // player2CardLabel
             // 
             player2CardLabel.AutoSize = true;
-            player2CardLabel.Location = new Point(217, 96);
+            player2CardLabel.Location = new Point(240, 99);
             player2CardLabel.Name = "player2CardLabel";
             player2CardLabel.Size = new Size(37, 15);
             player2CardLabel.TabIndex = 19;
@@ -238,7 +248,7 @@ namespace test
             // player2State
             // 
             player2State.AutoSize = true;
-            player2State.Location = new Point(217, 112);
+            player2State.Location = new Point(240, 115);
             player2State.Name = "player2State";
             player2State.Size = new Size(32, 15);
             player2State.TabIndex = 20;
@@ -247,7 +257,7 @@ namespace test
             // player2Label
             // 
             player2Label.AutoSize = true;
-            player2Label.Location = new Point(217, 128);
+            player2Label.Location = new Point(240, 131);
             player2Label.Name = "player2Label";
             player2Label.Size = new Size(39, 15);
             player2Label.TabIndex = 21;
@@ -256,7 +266,7 @@ namespace test
             // player3CardLabel
             // 
             player3CardLabel.AutoSize = true;
-            player3CardLabel.Location = new Point(637, 95);
+            player3CardLabel.Location = new Point(660, 98);
             player3CardLabel.Name = "player3CardLabel";
             player3CardLabel.Size = new Size(37, 15);
             player3CardLabel.TabIndex = 22;
@@ -265,7 +275,7 @@ namespace test
             // player3State
             // 
             player3State.AutoSize = true;
-            player3State.Location = new Point(637, 111);
+            player3State.Location = new Point(660, 114);
             player3State.Name = "player3State";
             player3State.Size = new Size(32, 15);
             player3State.TabIndex = 23;
@@ -274,7 +284,7 @@ namespace test
             // player3Label
             // 
             player3Label.AutoSize = true;
-            player3Label.Location = new Point(637, 127);
+            player3Label.Location = new Point(660, 130);
             player3Label.Name = "player3Label";
             player3Label.Size = new Size(39, 15);
             player3Label.TabIndex = 24;
@@ -283,7 +293,7 @@ namespace test
             // player3Cards
             // 
             player3Cards.FormattingEnabled = true;
-            player3Cards.Location = new Point(597, 95);
+            player3Cards.Location = new Point(620, 98);
             player3Cards.Name = "player3Cards";
             player3Cards.Size = new Size(40, 64);
             player3Cards.TabIndex = 25;
@@ -291,7 +301,7 @@ namespace test
             // player4CardLabel
             // 
             player4CardLabel.AutoSize = true;
-            player4CardLabel.Location = new Point(705, 205);
+            player4CardLabel.Location = new Point(723, 205);
             player4CardLabel.Name = "player4CardLabel";
             player4CardLabel.Size = new Size(37, 15);
             player4CardLabel.TabIndex = 26;
@@ -300,7 +310,7 @@ namespace test
             // player4State
             // 
             player4State.AutoSize = true;
-            player4State.Location = new Point(705, 221);
+            player4State.Location = new Point(723, 221);
             player4State.Name = "player4State";
             player4State.Size = new Size(32, 15);
             player4State.TabIndex = 27;
@@ -309,7 +319,7 @@ namespace test
             // player4Label
             // 
             player4Label.AutoSize = true;
-            player4Label.Location = new Point(705, 237);
+            player4Label.Location = new Point(723, 237);
             player4Label.Name = "player4Label";
             player4Label.Size = new Size(39, 15);
             player4Label.TabIndex = 28;
@@ -318,7 +328,7 @@ namespace test
             // player4Cards
             // 
             player4Cards.FormattingEnabled = true;
-            player4Cards.Location = new Point(665, 204);
+            player4Cards.Location = new Point(683, 204);
             player4Cards.Name = "player4Cards";
             player4Cards.Size = new Size(40, 64);
             player4Cards.TabIndex = 29;
@@ -326,7 +336,7 @@ namespace test
             // player5CardLabel
             // 
             player5CardLabel.AutoSize = true;
-            player5CardLabel.Location = new Point(153, 205);
+            player5CardLabel.Location = new Point(174, 210);
             player5CardLabel.Name = "player5CardLabel";
             player5CardLabel.Size = new Size(37, 15);
             player5CardLabel.TabIndex = 30;
@@ -335,7 +345,7 @@ namespace test
             // player5State
             // 
             player5State.AutoSize = true;
-            player5State.Location = new Point(153, 221);
+            player5State.Location = new Point(174, 226);
             player5State.Name = "player5State";
             player5State.Size = new Size(32, 15);
             player5State.TabIndex = 31;
@@ -344,7 +354,7 @@ namespace test
             // player5Label
             // 
             player5Label.AutoSize = true;
-            player5Label.Location = new Point(153, 237);
+            player5Label.Location = new Point(174, 242);
             player5Label.Name = "player5Label";
             player5Label.Size = new Size(39, 15);
             player5Label.TabIndex = 32;
@@ -353,7 +363,7 @@ namespace test
             // player5Cards
             // 
             player5Cards.FormattingEnabled = true;
-            player5Cards.Location = new Point(113, 203);
+            player5Cards.Location = new Point(134, 209);
             player5Cards.Name = "player5Cards";
             player5Cards.Size = new Size(40, 64);
             player5Cards.TabIndex = 33;
@@ -444,11 +454,106 @@ namespace test
             playerCountLabel.TabIndex = 43;
             playerCountLabel.Text = "Player count:";
             // 
+            // player1SplitCards
+            // 
+            player1SplitCards.FormattingEnabled = true;
+            player1SplitCards.Location = new Point(643, 204);
+            player1SplitCards.Name = "player1SplitCards";
+            player1SplitCards.Size = new Size(40, 64);
+            player1SplitCards.TabIndex = 44;
+            // 
+            // player2SplitCards
+            // 
+            player2SplitCards.FormattingEnabled = true;
+            player2SplitCards.Location = new Point(581, 98);
+            player2SplitCards.Name = "player2SplitCards";
+            player2SplitCards.Size = new Size(40, 64);
+            player2SplitCards.TabIndex = 45;
+            // 
+            // player3SplitCards
+            // 
+            player3SplitCards.FormattingEnabled = true;
+            player3SplitCards.Location = new Point(372, 98);
+            player3SplitCards.Name = "player3SplitCards";
+            player3SplitCards.Size = new Size(40, 64);
+            player3SplitCards.TabIndex = 46;
+            // 
+            // player4SplitCards
+            // 
+            player4SplitCards.FormattingEnabled = true;
+            player4SplitCards.Location = new Point(161, 98);
+            player4SplitCards.Name = "player4SplitCards";
+            player4SplitCards.Size = new Size(40, 64);
+            player4SplitCards.TabIndex = 47;
+            // 
+            // player5SplitCards
+            // 
+            player5SplitCards.FormattingEnabled = true;
+            player5SplitCards.Location = new Point(95, 209);
+            player5SplitCards.Name = "player5SplitCards";
+            player5SplitCards.Size = new Size(40, 64);
+            player5SplitCards.TabIndex = 48;
+            // 
+            // player1SplitLabel
+            // 
+            player1SplitLabel.AutoSize = true;
+            player1SplitLabel.Location = new Point(451, 146);
+            player1SplitLabel.Name = "player1SplitLabel";
+            player1SplitLabel.Size = new Size(38, 15);
+            player1SplitLabel.TabIndex = 49;
+            player1SplitLabel.Text = "split";
+            // 
+            // player2SplitLabel
+            // 
+            player2SplitLabel.AutoSize = true;
+            player2SplitLabel.Location = new Point(660, 146);
+            player2SplitLabel.Name = "player2SplitLabel";
+            player2SplitLabel.Size = new Size(38, 15);
+            player2SplitLabel.TabIndex = 50;
+            player2SplitLabel.Text = "split";
+            // 
+            // player3SplitLabel
+            // 
+            player3SplitLabel.AutoSize = true;
+            player3SplitLabel.Location = new Point(240, 146);
+            player3SplitLabel.Name = "player3SplitLabel";
+            player3SplitLabel.Size = new Size(38, 15);
+            player3SplitLabel.TabIndex = 51;
+            player3SplitLabel.Text = "split";
+            // 
+            // player4SplitLabel
+            // 
+            player4SplitLabel.AutoSize = true;
+            player4SplitLabel.Location = new Point(723, 253);
+            player4SplitLabel.Name = "player4SplitLabel";
+            player4SplitLabel.Size = new Size(38, 15);
+            player4SplitLabel.TabIndex = 52;
+            player4SplitLabel.Text = "split";
+            // 
+            // player5SplitLabel
+            // 
+            player5SplitLabel.AutoSize = true;
+            player5SplitLabel.Location = new Point(174, 258);
+            player5SplitLabel.Name = "player5SplitLabel";
+            player5SplitLabel.Size = new Size(38, 15);
+            player5SplitLabel.TabIndex = 53;
+            player5SplitLabel.Text = "split";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(847, 573);
+            Controls.Add(player5SplitLabel);
+            Controls.Add(player4SplitLabel);
+            Controls.Add(player3SplitLabel);
+            Controls.Add(player2SplitLabel);
+            Controls.Add(player1SplitLabel);
+            Controls.Add(player5SplitCards);
+            Controls.Add(player4SplitCards);
+            Controls.Add(player3SplitCards);
+            Controls.Add(player2SplitCards);
+            Controls.Add(player1SplitCards);
             Controls.Add(playerCountLabel);
             Controls.Add(DealerNameLabel);
             Controls.Add(dealerNameInput);
@@ -478,8 +583,6 @@ namespace test
             Controls.Add(dealerLabel);
             Controls.Add(player1Label);
             Controls.Add(startButton);
-            Controls.Add(tableImage);
-            Controls.Add(restartButton);
             Controls.Add(hitButton);
             Controls.Add(standButton);
             Controls.Add(player5Cards);
@@ -490,6 +593,8 @@ namespace test
             Controls.Add(dealerCards);
             Controls.Add(shuffleButton);
             Controls.Add(cardsImage);
+            Controls.Add(tableImage);
+            Controls.Add(restartButton);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -542,5 +647,15 @@ namespace test
         private TextBox dealerNameInput;
         private Label DealerNameLabel;
         private Label playerCountLabel;
+        private ListBox player1SplitCards;
+        private ListBox player2SplitCards;
+        private ListBox player3SplitCards;
+        private ListBox player4SplitCards;
+        private ListBox player5SplitCards;
+        private Label player1SplitLabel;
+        private Label player2SplitLabel;
+        private Label player3SplitLabel;
+        private Label player4SplitLabel;
+        private Label player5SplitLabel;
     }
 }
