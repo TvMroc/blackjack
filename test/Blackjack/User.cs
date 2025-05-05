@@ -6,6 +6,7 @@ namespace test.Blackjack
     class User
     {
         public List<Card> Hand { get; private set; } = [];
+        public string Name { get; private set; }
         public int Money { get; private set; }
         public int Bet { get; private set; } = 0;
         public UserState State { get; private set; } = UserState.Playing;

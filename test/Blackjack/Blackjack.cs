@@ -9,10 +9,10 @@ namespace test.Blackjack
     {
         private int user = 5;
 
-        private Player[] players = [new Player(Constants.startMoney)];
+        private List<Player> players = [new Player(Constants.startMoney)];
         private Dealer dealer = new Dealer(Constants.startMoney);
         private int CurrentPlayer = 0;
-        public string Winner { get; private set; } = "";
+        public List<string> Winners { get; private set; } = [];
 
         Deck deck = new Deck();
 
@@ -24,7 +24,7 @@ namespace test.Blackjack
 
         public List<Card> GetCards(int user)
         {
-            if (Winner != "" || this.user == user) return GetUser(user).Hand;
+            if (Winners.Count > 0 || this.user == user) return GetUser(user).Hand;
             return new List<Card> { };
         }
 
@@ -34,7 +34,7 @@ namespace test.Blackjack
         }
         public int GetTotalFor(int user)
         {
-            if (Winner != "" || this.user ==user) return GetUser(user).GetTotal();
+            if (Winners.Count > 0 || this.user ==user) return GetUser(user).GetTotal();
             return 0;
         }
 
@@ -53,29 +53,30 @@ namespace test.Blackjack
         {
             if (CurrentActor == "dealer")
             {
-                if (dealer.State != UserState.Standing )
+                if (dealer.State != UserState.Standing && dealer.State != UserState.Busted || players.Any(player => player.State == UserState.RequestingCard))
                 {
-                    if (user == 5 && dealer.State != UserState.Busted && dealer.State != UserState.Standing)
+                    if (user == 5)
                     {
                         return true;
-                    } else
+                    }
+                    else
                     {
-                        if (dealer.GetTotal() < 16) 
+                        if (dealer.GetTotal() < 16)
                         {
                             dealer.SetState(UserState.RequestingCard);
-                        } else
+                        }
+                        else
                         {
                             dealer.Stand();
                         }
-
                     }
                 }
             }
             else
             {
-                if (players[CurrentPlayer].State != UserState.Standing)
+                if (players[CurrentPlayer].State != UserState.Standing && players[CurrentPlayer].State != UserState.Busted && players[CurrentPlayer].State != UserState.RequestingCard)
                 {
-                    if (user != 5 && players[CurrentPlayer].State != UserState.Busted && players[CurrentPlayer].State != UserState.Standing)
+                    if (user == CurrentPlayer)
                     {
                         return true;
                     }
@@ -94,20 +95,47 @@ namespace test.Blackjack
                     }
                 }
             }
-            if ((dealer.State == UserState.Standing || dealer.State == UserState.Busted) && (players[CurrentPlayer].State == UserState.Standing || players[CurrentPlayer].State == UserState.Busted))
+
+            bool allStandingOrBusted = dealer.State == UserState.Standing || dealer.State == UserState.Busted;
+            foreach (var player in players)
             {
-                if ((dealer.State == UserState.Busted && players[CurrentPlayer].State == UserState.Busted) || (players[CurrentPlayer].GetTotal() == dealer.GetTotal()))
+                if (player.State != UserState.Standing && player.State != UserState.Busted)
                 {
-                    Winner = "Draw ";
+                    allStandingOrBusted = false;
+                    break;
                 }
-                else if (dealer.State == UserState.Busted && players[CurrentPlayer].State != UserState.Busted || players[CurrentPlayer].State != UserState.Busted && players[CurrentPlayer].GetTotal() > dealer.GetTotal())
-                {
-                    Winner = "Player";
-                }
-                else if (players[CurrentPlayer].State == UserState.Busted && dealer.State != UserState.Busted || dealer.State != UserState.Busted && dealer.GetTotal() > players[CurrentPlayer].GetTotal()) Winner = "Dealer";
             }
+
+            if (allStandingOrBusted) FindWinners();
+
             CycleActor();
             return false;
+        }
+
+        private void FindWinners()
+        {
+            for (int i = 0; i < players.Count; i++)
+            {
+                var player = players[i];
+                if ((dealer.State == UserState.Standing || dealer.State == UserState.Busted) && (player.State == UserState.Standing || player.State == UserState.Busted))
+                {
+                    if ((dealer.State == UserState.Busted && player.State == UserState.Busted) ||
+                        (player.GetTotal() == dealer.GetTotal()))
+                    {
+                        Winners.Add("Draw");
+                    }
+                    else if (dealer.State == UserState.Busted && player.State != UserState.Busted ||
+                             player.State != UserState.Busted && player.GetTotal() > dealer.GetTotal())
+                    {
+                        Winners.Add("Won");
+                    }
+                    else if (player.State == UserState.Busted && dealer.State != UserState.Busted ||
+                             dealer.State != UserState.Busted && dealer.GetTotal() > player.GetTotal())
+                    {
+                        Winners.Add("Lost");
+                    }
+                }
+            }
         }
 
         public void CycleActor()
@@ -117,7 +145,7 @@ namespace test.Blackjack
                 CurrentActor = "player";
                 CurrentPlayer = 0;
             }
-            else if (CurrentPlayer >= players.Length - 1)
+            else if (CurrentPlayer >= players.Count - 1)
             {
                 CurrentActor = "dealer";
             }
@@ -176,16 +204,19 @@ namespace test.Blackjack
 
         public void StartGame(int user, int playerCount)
         {
-            Winner = "";
+            Winners = [ ];
             this.user = user;
             deck = new Deck();
             players = [new Player(Constants.startMoney)];
             dealer = new Dealer(Constants.startMoney);
+            CurrentActor = "dealer";
+            CurrentPlayer = 0;
 
             if (playerCount > 5) playerCount = 5;
-            for (int i = 1; i > playerCount; i++)
+            if (playerCount < 1) playerCount = 1;
+            for (int i = 1; i < playerCount; i++)
             {
-                players.Append(new Player(Constants.startMoney));
+                players.Add(new Player(Constants.startMoney));
             }
         }
     }
